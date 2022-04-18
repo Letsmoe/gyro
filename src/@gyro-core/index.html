@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Gyro</title>
+</head>
+<body>
+	
+</body>
+<script type="module">
+	import {parse, Environment, evaluate, InputStream, TokenStream, compileJS} from "./lib/index.js";
+	window.Environment = Environment;
+	window.parse = parse;
+	window.evaluate = evaluate;
+	window.InputStream = InputStream;
+	window.TokenStream = TokenStream;
+
+	const code = `
+	x = [[5,6], [7,8]];
+	y = [[1,2], [3,4]];
+	for i in 2 {print(i);};
+
+	matMul = func(a, b) {
+		for i in a {
+			for j in b->0 {
+				print(i * j);
+			}
+		}
+	};
+
+	print(matMul(x, y));
+
+	`;
+	const env = new Environment(null);
+
+	env.def("print", (...args) => {
+		console.log(...args);
+	});
+	const input = new InputStream(code);
+	const tokens = new TokenStream(input);
+	const ast = parse(tokens);
+	evaluate(ast, env);
+</script>
+</html>

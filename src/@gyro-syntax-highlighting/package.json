@@ -1,0 +1,30 @@
+{
+    "name": "gyro-highlighting",
+    "displayName": "gyro-highlighting",
+    "description": "Gyro Syntax Highlighting",
+	"publisher": "letsmoe",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.66.0"
+    },
+    "categories": [
+        "Programming Languages"
+    ],
+    "contributes": {
+        "languages": [{
+            "id": "gyro",
+            "aliases": ["gyro", "gyro"],
+            "extensions": ["gyro","gy","gyrom"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "gyro",
+            "scopeName": "source.gyro",
+            "path": "./syntaxes/gyro.tmLanguage.json"
+        }],
+		"snippets": [{
+			"language": "gyro",
+			"path": "./snippets/gyro.json"
+		}]
+    }
+}

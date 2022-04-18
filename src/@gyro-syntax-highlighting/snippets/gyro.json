@@ -1,0 +1,42 @@
+{
+	"Function Declaration": {
+		"prefix": ["function", "func"],
+		"body": ["${1:type}: ${2:name} = func(${3:args}) {", "\t$0", "};"]
+	},
+	"Integer": {
+		"prefix": ["int", "integer"],
+		"body": ["int: ${2:name} = ${3:value};"]
+	},
+	"Float": {
+		"prefix": ["float", "double"],
+		"body": ["float: ${2:name} = ${3:value};"]
+	},
+	"String": {
+		"prefix": ["string", "str"],
+		"body": ["string: ${2:name} = \"${3:value}\";"]
+	},
+	"Boolean": {
+		"prefix": ["bool", "boolean"],
+		"body": ["bool: ${2:name} = ${3:value};"]
+	},
+	"Array": {
+		"prefix": ["array", "arr"],
+		"body": ["array: ${2:name} = [${3:value}];"]
+	},
+	"Map": {
+		"prefix": ["map", "dict"],
+		"body": ["map: ${2:name} = [${3:key}: ${4:value}];"]
+	},
+	"Struct": {
+		"prefix": ["struct", "struct"],
+		"body": ["struct: ${2:name} = {", "\t$0", "};"]
+	},
+	"Import": {
+		"prefix": ["import", "import"],
+		"body": ["import \"${1:path}\";"]
+	},
+	"Print": {
+		"prefix": ["p", "print"],
+		"body": ["print(${1:content});"]
+	}
+}
