@@ -8,9 +8,23 @@ function evaluate(exp, env) {
         case "identifier":
             return env.get(exp.value);
         case "AssignmentExpression":
-            if (exp.left.type != "identifier")
-                throw new Error("Cannot assign to " + JSON.stringify(exp.left));
+            if (exp.left.type != "identifier") {
+                // We're not reassigning a value, check if a type has been annotated.
+                if (exp.left.type == "TypeExpression") {
+                    // Expect a type to be assigned to the variable. => (varName: type) = value;
+                    return env.def(exp.left.left.value, evaluate(exp.right, env));
+                }
+                else {
+                    // We can't assign a value to someone whose type we don't know.
+                    throw new Error("Cannot assign to " +
+                        JSON.stringify(exp.left) +
+                        "with missing type");
+                }
+            }
+            // Expect that the user wishes the `any` type to be assigned automatically.
             return env.def(exp.left.value, evaluate(exp.right, env));
+        case "TypeExpression":
+            return exp.value;
         case "BinaryExpression":
             return applyOperation(exp.operator, evaluate(exp.left, env), evaluate(exp.right, env));
         case "ForInStatement":
@@ -112,8 +126,14 @@ function makeFunction(env, exp) {
     function lambda() {
         var names = exp.vars;
         var scope = env.extend();
-        for (var i = 0; i < names.length; ++i)
-            scope.def(names[i], i < arguments.length ? arguments[i] : false);
+        for (var i = 0; i < names.length; ++i) {
+            if (names[i].type == "TypeExpression") {
+                scope.def(names[i].left.value, i < arguments.length ? arguments[i] : false);
+            }
+            else {
+                scope.def(names[i].value, i < arguments.length ? arguments[i] : false);
+            }
+        }
         return evaluate(exp.body, scope);
     }
     return lambda;

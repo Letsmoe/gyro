@@ -30,7 +30,7 @@ class TokenStream {
         return (this.isIdentifierStart(ch) || "?!-<>0123456789".indexOf(ch) >= 0);
     }
     isOperatorChar(ch) {
-        return (["+", "-", "*", "/", "%", "=", "&", "|", "<", ">", "!"].indexOf(ch) >= 0);
+        return (["+", "-", "*", "/", "%", "=", "&", "|", "<", ">", ":", "!"].indexOf(ch) >= 0);
     }
     isPunctuation(ch) {
         return ",;(){}[]".indexOf(ch) >= 0;

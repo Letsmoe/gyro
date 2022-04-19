@@ -48,11 +48,11 @@ Used to expose some parts of the current script to be made available to an inclu
 
 
 ```gyro
-	any: add = func(a, b) {
+	(any: add) = func(a, b) {
 		return a + b;
 	}
 
-	any: subtract = func(a, b) {
+	(any: subtract) = func(a, b) {
 		return a - b;
 	}
 

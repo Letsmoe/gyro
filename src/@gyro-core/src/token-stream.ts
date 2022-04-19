@@ -35,7 +35,7 @@ class TokenStream {
 	}
 	private isOperatorChar(ch: string) {
 		return (
-			["+", "-", "*", "/", "%", "=", "&", "|", "<", ">", "!"].indexOf(
+			["+", "-", "*", "/", "%", "=", "&", "|", "<", ">", ":", "!"].indexOf(
 				ch
 			) >= 0
 		);

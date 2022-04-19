@@ -18,20 +18,17 @@
 	window.TokenStream = TokenStream;
 
 	const code = `
-	x = [[5,6], [7,8]];
-	y = [[1,2], [3,4]];
-	for i in 2 {print(i);};
+	(x: int) = 5;
+	(y: int) = 10;
+	(z: int) = x + y;
 
-	matMul = func(a, b) {
-		for i in a {
-			for j in b->0 {
-				print(i * j);
-			}
-		}
+	(fun: int) = func((a: int), b) {
+		a + b;
 	};
 
-	print(matMul(x, y));
-
+	w = z * 2;
+	print(fun(5,100));
+	print(w);
 	`;
 	const env = new Environment(null);
 
@@ -41,6 +38,8 @@
 	const input = new InputStream(code);
 	const tokens = new TokenStream(input);
 	const ast = parse(tokens);
+
+	console.log(ast);
 	evaluate(ast, env);
 </script>
 </html>

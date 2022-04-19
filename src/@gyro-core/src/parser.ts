@@ -1,9 +1,10 @@
 var FALSE = { type: "bool", value: false };
 function parse(input) {
 	var PRECEDENCE = {
-		"=": 1,
-		"||": 2,
-		"&&": 3,
+		":": 1,
+		"=": 2,
+		"||": 3,
+		"&&": 4,
 		"<": 7,
 		">": 7,
 		"<=": 7,
@@ -19,7 +20,7 @@ function parse(input) {
 		"**": 30,
 	};
 	return parseToplevel();
-	function is_punc(ch: string) {
+	function isPunctuation(ch: string) {
 		var tok = input.peek();
 		return (
 			tok && tok.type == "punctuation" && (!ch || tok.value == ch) && tok
@@ -34,14 +35,14 @@ function parse(input) {
 		return tok && tok.type == "operator" && (!op || tok.value == op) && tok;
 	}
 	function skipPunctuation(ch) {
-		if (is_punc(ch)) input.next();
+		if (isPunctuation(ch)) input.next();
 		else input.croak('Expecting punctuation: "' + ch + '"');
 	}
 	function skipKeyword(kw) {
 		if (isKeyword(kw)) input.next();
 		else input.croak('Expecting keyword: "' + kw + '"');
 	}
-	function skip_op(op) {
+	function skipOperator(op) {
 		if (isOperator(op)) input.next();
 		else input.croak('Expecting operator: "' + op + '"');
 	}
@@ -59,7 +60,7 @@ function parse(input) {
 						type:
 							tok.value == "="
 								? "AssignmentExpression"
-								: "BinaryExpression",
+								: tok.value == ":" ? "TypeExpression" : "BinaryExpression",
 						operator: tok.value,
 						left: left,
 						right: maybeBinary(parseAtom(), his_prec),
@@ -75,10 +76,10 @@ function parse(input) {
 			first = true;
 		skipPunctuation(start);
 		while (!input.eof()) {
-			if (is_punc(stop)) break;
+			if (isPunctuation(stop)) break;
 			if (first) first = false;
 			else skipPunctuation(separator);
-			if (is_punc(stop)) break;
+			if (isPunctuation(stop)) break;
 			a.push(parser());
 		}
 		skipPunctuation(stop);
@@ -93,13 +94,13 @@ function parse(input) {
 	}
 	function parseIdentifier() {
 		var name = input.next();
-		if (name.type != "identifier") input.croak("Expecting variable name");
+		if (name.type != "identifier" && (name.type != "punctuation" && name.value == "(")) input.croak("Expecting variable name or type declaration");
 		return name.value;
 	}
 	function parseIf() {
 		skipKeyword("if");
 		var cond = parseExpression();
-		if (!is_punc("{")) skipKeyword("then");
+		if (!isPunctuation("{")) skipKeyword("then");
 		var then = parseExpression();
 		var ret: { type: string; cond: string; then: string; else?: string } = {
 			type: "if",
@@ -118,7 +119,7 @@ function parse(input) {
 		var controlName = parseExpression();
 		skipKeyword("in");
 		var arrayName = parseExpression();
-		if (!is_punc("{")) skipKeyword("do");
+		if (!isPunctuation("{")) skipKeyword("do");
 		var body = parseExpression();
 		return {
 			type: "ForInStatement",
@@ -131,7 +132,7 @@ function parse(input) {
 	function parseFunction() {
 		return {
 			type: "FunctionDeclaration",
-			vars: delimited("(", ")", ",", parseIdentifier),
+			vars: delimited("(", ")", ",", parseExpression),
 			body: parseExpression(),
 		};
 	}
@@ -144,7 +145,7 @@ function parse(input) {
 	}
 	function maybeCall(expr) {
 		expr = expr();
-		return is_punc("(") ? parseCall(expr) : expr;
+		return isPunctuation("(") ? parseCall(expr) : expr;
 	}
 	function parseArray() {
 		return {
@@ -155,18 +156,18 @@ function parse(input) {
 
 	function parseAtom() {
 		return maybeCall(function () {
-			if (is_punc("(")) {
+			if (isPunctuation("(")) {
 				input.next();
 				var exp = parseExpression();
 				skipPunctuation(")");
 				return exp;
 			}
-			if (is_punc("{")) return parseProgram();
+			if (isPunctuation("{")) return parseProgram();
 			if (isKeyword("if")) return parseIf();
 			if (isKeyword("for")) return parseLoop();
-			if (is_punc("[")) return parseArray();
+			if (isPunctuation("[")) return parseArray();
 			if (isKeyword("true") || isKeyword("false")) return parseBoolean();
-			if (isKeyword("func") || isKeyword("λ")) {
+			if (isKeyword("func")) {
 				input.next();
 				return parseFunction();
 			}
