@@ -53,14 +53,13 @@ function parse(input) {
 		var tok = isOperator();
 		if (tok) {
 			var his_prec = PRECEDENCE[tok.value];
-			if (his_prec > my_prec) {
+			if ((his_prec > my_prec) || typeof his_prec == "undefined") {
 				input.next();
+
+				const typeMap = {"=": "AssignmentExpression", ":": "TypeExpression", "~": "ObjectAccessor"}
 				return maybeBinary(
 					{
-						type:
-							tok.value == "="
-								? "AssignmentExpression"
-								: tok.value == ":" ? "TypeExpression" : "BinaryExpression",
+						type: typeMap[tok.value] || "BinaryExpression",
 						operator: tok.value,
 						left: left,
 						right: maybeBinary(parseAtom(), his_prec),
@@ -94,7 +93,12 @@ function parse(input) {
 	}
 	function parseIdentifier() {
 		var name = input.next();
-		if (name.type != "identifier" && (name.type != "punctuation" && name.value == "(")) input.croak("Expecting variable name or type declaration");
+		if (
+			name.type != "identifier" &&
+			name.type != "punctuation" &&
+			name.value == "("
+		)
+			input.croak("Expecting variable name or type declaration");
 		return name.value;
 	}
 	function parseIf() {
@@ -153,7 +157,6 @@ function parse(input) {
 			elements: delimited("[", "]", ",", parseAtom),
 		};
 	}
-
 	function parseAtom() {
 		return maybeCall(function () {
 			if (isPunctuation("(")) {

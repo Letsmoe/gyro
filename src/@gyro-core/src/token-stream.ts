@@ -26,16 +26,16 @@ class TokenStream {
 		return /[0-9]/i.test(ch);
 	}
 	private isIdentifierStart(ch: string): boolean {
-		return /[a-zλ_]/i.test(ch);
+		return /[a-z_]/i.test(ch);
 	}
 	private isIdentifier(ch: string): boolean {
 		return (
-			this.isIdentifierStart(ch) || "?!-<>0123456789".indexOf(ch) >= 0
+			this.isIdentifierStart(ch) || "?!<>0123456789".indexOf(ch) >= 0
 		);
 	}
 	private isOperatorChar(ch: string) {
 		return (
-			["+", "-", "*", "/", "%", "=", "&", "|", "<", ">", ":", "!"].indexOf(
+			["+", "-", "*", "/", "%", "=", "&", "|", "<", ">", ":", "!", "~"].indexOf(
 				ch
 			) >= 0
 		);
@@ -136,6 +136,12 @@ class TokenStream {
 
 	croak(msg: string) {
 		this.stream.croak(msg);
+	}
+
+	all() {
+		var tokens: any[] = [];
+		while (!this.eof()) tokens.push(this.next());
+		return tokens;
 	}
 }
 

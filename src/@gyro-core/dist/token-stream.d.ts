@@ -22,5 +22,6 @@ declare class TokenStream {
     next(): any;
     eof(): boolean;
     croak(msg: string): void;
+    all(): any[];
 }
 export { TokenStream };

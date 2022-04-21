@@ -1,6 +1,16 @@
-export { InputStream } from "./input-stream.js";
-export { TokenStream } from "./token-stream.js";
-export { parse } from "./parser.js";
-export { evaluate } from "./interpreter.js";
-export { compileJS } from "./transpiler.js";
-export { Environment } from "./environment.js";
+import { InputStream } from "./input-stream.js";
+import { TokenStream } from "./token-stream.js";
+import { parse } from "./parser.js";
+import { evaluate } from "./interpreter.js";
+import { compileJS } from "./transpiler.js";
+import { Environment } from "./environment.js";
+declare const Gyro: {
+    evaluate(code: string, env?: Environment): any;
+    evaluateAST(ast: object, env?: Environment): any;
+    parse(code: string): {
+        type: string;
+        body: any[];
+    };
+    tokenize(code: string): any[];
+};
+export { InputStream, TokenStream, parse, evaluate, compileJS, Environment, Gyro };

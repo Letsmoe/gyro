@@ -24,13 +24,13 @@ class TokenStream {
         return /[0-9]/i.test(ch);
     }
     isIdentifierStart(ch) {
-        return /[a-zλ_]/i.test(ch);
+        return /[a-z_]/i.test(ch);
     }
     isIdentifier(ch) {
-        return (this.isIdentifierStart(ch) || "?!-<>0123456789".indexOf(ch) >= 0);
+        return (this.isIdentifierStart(ch) || "?!<>0123456789".indexOf(ch) >= 0);
     }
     isOperatorChar(ch) {
-        return (["+", "-", "*", "/", "%", "=", "&", "|", "<", ">", ":", "!"].indexOf(ch) >= 0);
+        return (["+", "-", "*", "/", "%", "=", "&", "|", "<", ">", ":", "!", "~"].indexOf(ch) >= 0);
     }
     isPunctuation(ch) {
         return ",;(){}[]".indexOf(ch) >= 0;
@@ -134,6 +134,12 @@ class TokenStream {
     }
     croak(msg) {
         this.stream.croak(msg);
+    }
+    all() {
+        var tokens = [];
+        while (!this.eof())
+            tokens.push(this.next());
+        return tokens;
     }
 }
 export { TokenStream };

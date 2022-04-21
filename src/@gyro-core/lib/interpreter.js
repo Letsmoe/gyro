@@ -47,6 +47,8 @@ function evaluate(exp, env) {
             return func.apply(null, exp.args.map(function (arg) {
                 return evaluate(arg, env);
             }));
+        case "ObjectAccessor":
+            return evaluate(exp.left, env)[evaluate(exp.right, env)];
         case "ArrayExpression":
             // We allow deeply nested arrays, we must recurse to parse them
             return exp.elements.map(function (e) {
