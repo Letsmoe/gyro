@@ -1,6 +1,6 @@
 {
 	"name": "@gyro-lang/core",
-	"version": "0.0.3",
+	"version": "0.0.5",
 	"type": "module",
 	"description": "Fast, Performant and scalable programming language designed for string manipulation and deep recursion.",
 	"types": "./dist/main.d.ts",

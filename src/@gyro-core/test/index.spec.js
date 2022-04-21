@@ -18,7 +18,7 @@ export default (describe, it, expect) => {
 			expect(main).toEqual(25);
 		});
 		it("Should define an array and access the 2nd property of it starting at 0", () => {
-			const main = Gyro.evaluate(`(x: Array<int>) = [1,2,3,4]; x~2;`)
+			const main = Gyro.evaluate(`(index: int) = 2; (x: Array<int>) = [1,2,3,4]; x~index;`)
 			expect(main).toEqual(3);
 		})
 	})
