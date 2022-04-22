@@ -1,0 +1,4 @@
+# Create a demo function that prints 'Hello, World!'
+demo = func() {
+	print("Hello, World!");
+}
