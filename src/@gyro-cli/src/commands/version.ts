@@ -1,11 +1,14 @@
 import * as fs from "fs";
 import { warn, info } from "../error.js";
 import { readConfig } from "../config.js";
+import { ArgumentParser } from "colarg/dist/types";
 
 export const versionCommand = [
 	"version",
 	"Update the version of the current project.",
-	(locals: {}, type: string) => {
+	(parser: ArgumentParser) => {
+		let locals = parser.args._defaults;
+		let type = locals[0]
 		const [packageData, packagePath] = readConfig();
 
 		if (!type) {
@@ -13,8 +16,8 @@ export const versionCommand = [
 			process.exit(1);
 		}
 		if (typeof packageData.version === "undefined") {
-			warn(`Could not find version in package.gy.json. Using '0.0.1'`);
-			packageData.version = "0.0.1";
+			warn(`Could not find version in package.gyro.json. Using '1.0.0'`);
+			packageData.version = "1.0.0";
 		} else {
 			const version = packageData.version;
 			const versionParts = version.split(".");
@@ -28,6 +31,9 @@ export const versionCommand = [
 				versionParts[1] = "0";
 				versionParts[2] = "0";
 			}
+		
+			info("Upgrading Parcel from " + packageData.version + " to " + versionParts.join("."));
+
 			packageData.version = versionParts.join(".");
 		}
 

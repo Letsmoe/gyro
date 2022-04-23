@@ -3,11 +3,22 @@ import * as fs from "fs";
 import { FolderType } from "../structure/folder.js";
 import { StandardTemplates } from "../templates.js";
 import { warn } from "../error.js";
+import { ArgumentParser } from "colarg/dist/types";
 
 export const initCommand = [
 	"init",
 	"Create a new project with a specified name and template.",
-	(locals: { template: string }, name: string) => {
+	(parser: ArgumentParser) => {
+		let locals = parser.option({
+			name: "template",
+			alias: "t",
+			defaults: "default",
+			description: "The template to use.",
+			required: false,
+			type: "string",
+		}).help().args;
+		let name = locals._defaults[0];
+
 		const initializerProperties = {
 			PACKAGE_NAME: name,
 			PACKAGE_DESCRIPTION: "",

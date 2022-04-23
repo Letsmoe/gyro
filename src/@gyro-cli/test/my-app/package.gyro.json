@@ -1,0 +1,13 @@
+{
+    "version": "0.0.2",
+    "name": "my-app",
+    "description": "",
+    "owner": "Letsmoe955",
+    "tags": [
+        "gyro",
+        "cli",
+        "programming",
+        "language"
+    ],
+    "dependencies": {}
+}

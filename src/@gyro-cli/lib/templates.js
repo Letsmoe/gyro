@@ -21,7 +21,7 @@ export const StandardTemplates = {
             File("LICENSE", ""),
             File("CHANGELOG.md", ""),
             File(".gitignore", ""),
-            File("package.gy.json", JSON.stringify({
+            File("package.gyro.json", JSON.stringify({
                 version: "0.0.1",
                 name: "{{PACKAGE_NAME}}",
                 description: "{{PACKAGE_DESCRIPTION}}",
@@ -43,7 +43,7 @@ export const StandardTemplates = {
             ]),
             File("README.md", ""),
             File("LICENSE", ""),
-            File("package.gy.json", ""),
+            File("package.gyro.json", ""),
         ])
     },
 };

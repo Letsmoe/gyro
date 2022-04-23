@@ -18,6 +18,7 @@ function parse(input) {
         "/": 20,
         "%": 20,
         "**": 30,
+        "~": 40,
     };
     return parseToplevel();
     function isPunctuation(ch) {

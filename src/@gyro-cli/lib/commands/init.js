@@ -5,7 +5,16 @@ import { warn } from "../error.js";
 export const initCommand = [
     "init",
     "Create a new project with a specified name and template.",
-    (locals, name) => {
+    (parser) => {
+        let locals = parser.option({
+            name: "template",
+            alias: "t",
+            defaults: "default",
+            description: "The template to use.",
+            required: false,
+            type: "string",
+        }).help().args;
+        let name = locals._defaults[0];
         const initializerProperties = {
             PACKAGE_NAME: name,
             PACKAGE_DESCRIPTION: "",
