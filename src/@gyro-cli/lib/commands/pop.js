@@ -22,7 +22,7 @@ export const popCommand = [
             // Folder does not exist anymore, remove its reference from the config.
             info("Writing changes to config...");
             delete packageData["dependencies"][name];
-            fs.writeFileSync(packagePath, JSON.stringify(packageData, null, 2));
+            fs.writeFileSync(packagePath, JSON.stringify(packageData, null, 4));
             info("Successfully removed Parcel from config.");
         }
         else {

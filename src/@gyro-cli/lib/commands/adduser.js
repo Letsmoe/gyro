@@ -9,9 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import { readConfig, addUser, userExists } from "../config.js";
 import axios from "axios";
-import * as prompts from "prompts";
+import prompts from "prompts";
 import * as qs from "qs";
-import { info } from "console";
+import { info } from "../error.js";
 import { error } from "../error.js";
 export const adduserCommand = [
     "adduser",
@@ -29,7 +29,7 @@ export const adduserCommand = [
             }
             else {
                 // @ts-ignore
-                data = yield prompts.default.prompt([
+                data = yield prompts.prompt([
                     {
                         type: "text",
                         name: "username",
@@ -47,20 +47,23 @@ export const adduserCommand = [
                     },
                 ]);
             }
-            const inputData = { username: data.username, password: data.password, email: data.email };
+            const inputData = {
+                username: data.username,
+                password: data.password,
+                email: data.email,
+            };
             // Check if the user already exists
             if (!userExists(inputData)) {
                 axios({
                     method: "post",
                     url: "https://gyro.continuum-ai.de/api/validate_user.php",
-                    data: qs.stringify(inputData)
+                    data: qs.stringify(inputData),
                 }).then((response) => {
                     let data = response.data;
                     if (data.status === "success") {
                         if (addUser(inputData)) {
                             info("User account successfully added to config.");
                         }
-                        ;
                     }
                     else {
                         error("Failed to add user account.");

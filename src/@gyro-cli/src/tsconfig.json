@@ -5,7 +5,8 @@
 		"declarationMap": true,
 		"declarationDir": "../dist/",
 		"moduleResolution": "node",
-		"target": "ES6"
+		"target": "ES6",
+		"module": "es2022"
 	},
 	"compileOnSave": true
 }

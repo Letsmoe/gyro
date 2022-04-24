@@ -1,0 +1,15 @@
+# 'awd' Documentation
+This is the index page for the documentation of your new package.
+What you're looking at right now is `mpp` or `markdown++`, a flavor of Markdown that has Gyro embedded as a templating language in it.
+
+{%
+table = toc("Table of Contents");
+%}
+{{table}}
+
+## Why mpp?
+We developed mpp to simplify the process of documenting our project. Look at the example above, you can easily create a Table of Contents with just a line of code rather than having to type it manually every time you want to update.
+There is also the possibility of embedding other files into your documentation. The inclusion of modules into your project and automatic documentation generation of your codebase by using the `docGenerate("<filename>", "<optional_language>")` command.
+
+## Development Experience
+An official `mpp` syntax highlighting extension is available for VSCode [here](https://marketplace.visualstudio.com/items?itemName=Letsmoe.mpp).

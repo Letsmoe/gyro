@@ -1,8 +1,8 @@
 import { readConfig, addUser, userExists } from "../config.js";
 import axios from "axios";
-import * as prompts from "prompts";
+import prompts from "prompts";
 import * as qs from "qs";
-import { info } from "console";
+import { info } from "../error.js";
 import { error } from "../error.js";
 import { ArgumentParser } from "colarg/dist/types";
 
@@ -11,19 +11,19 @@ export const adduserCommand = [
 	"Add a user account to the local configuration.",
 	(parser: ArgumentParser) => {
 		let locals = parser.args._defaults;
-		let username = locals[0]
-		let password = locals[1]
-		let email = locals[2]
+		let username = locals[0];
+		let password = locals[1];
+		let email = locals[2];
 
 		const [packageData, packagePath] = readConfig();
 
 		(async () => {
-			var data: {username: string, password: string, email: string};
+			var data: { username: string; password: string; email: string };
 			if (username && password && email) {
-				data = {username, password, email};
+				data = { username, password, email };
 			} else {
 				// @ts-ignore
-				data = await prompts.default.prompt([
+				data = await prompts.prompt([
 					{
 						type: "text",
 						name: "username",
@@ -43,22 +43,26 @@ export const adduserCommand = [
 				]);
 			}
 
-			const inputData = {username: data.username, password: data.password, email: data.email};
+			const inputData = {
+				username: data.username,
+				password: data.password,
+				email: data.email,
+			};
 
 			// Check if the user already exists
 			if (!userExists(inputData)) {
 				axios({
 					method: "post",
 					url: "https://gyro.continuum-ai.de/api/validate_user.php",
-					data: qs.stringify(inputData)
+					data: qs.stringify(inputData),
 				}).then((response: any) => {
 					let data = response.data;
 					if (data.status === "success") {
 						if (addUser(inputData)) {
 							info("User account successfully added to config.");
-						};
+						}
 					} else {
-						error("Failed to add user account.")
+						error("Failed to add user account.");
 					}
 				});
 			}

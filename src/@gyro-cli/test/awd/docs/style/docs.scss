@@ -1,0 +1,237 @@
+$bg: #ffffff;
+$bg-accent: #E8EDEB;
+$fg: #151514;
+$fg-accent: #F5CB5C;
+
+// Create variables for different font sizes.
+$font-size-xs: 0.8rem;
+$font-size-s: 1.2rem;
+$font-size-base: 1.6rem;
+$font-size-l: 2.2rem;
+$font-size-xl: 3rem;
+
+
+// Create variables for different margins.
+$m-xs: 0.8rem;
+$m-s: 1rem;
+$m-base: 1.2rem;
+$m-l: 1.4rem;
+$m-xl: 1.6rem;
+
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Courier New', Courier, monospace;
+}
+
+// Give the body a minimum height of 100vh and set its background color to fafafa
+body {
+	min-height: 100vh;
+	background-color: #FFFFFF;
+}
+
+header {
+	background-color: #151514;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	padding: 8px 32px;
+	position: sticky;
+	top: 0;
+	border-bottom: 1px solid $bg;
+	
+	& a {
+		color: #FFFFFF;
+		text-decoration: none;
+		font-weight: 600;
+		font-size: $font-size-s;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+// Create helper classes like gap-l, gap-xl...
+@mixin row {
+	display: flex;
+	flex-direction: row;
+}
+
+.gap-xs {
+	display: flex;
+	gap: 4px;
+}
+
+.gap-s {
+	display: flex;
+	gap: 8px;
+}
+
+.gap-m {
+	display: flex;
+	gap: 16px;
+}
+
+.gap-l {
+	display: flex;
+	gap: 24px;
+}
+
+.gap-xl {
+	display: flex;
+	gap: 32px;
+}
+
+// Container centered in the middle of the body that contains all the markup
+.content {
+	max-width: 1200px;
+	margin: 32px auto;
+	border-radius: 4px;
+	padding: 32px;
+	border: 1px solid $bg-accent;
+
+	& h1,h2,h3,h4,h5,h6 {
+		font-weight: 600;
+		color: #333;
+		letter-spacing: 2px;
+		text-shadow: 2px 2px 0px rgba(51, 51, 51, 0.25);
+	}
+
+	& h1 {
+		font-size: $font-size-xl;
+		margin-bottom: $m-xl;
+	}
+
+	& h2 {
+		font-size: $font-size-l;
+		margin-bottom: $m-l;
+	}
+
+	& h3 {
+		font-size: $font-size-base;
+		margin-bottom: $m-l;
+	}
+
+	& h4 {
+		font-size: $font-size-s;
+		margin-bottom: $m-s;
+	}
+
+	& h5 {
+		font-size: $font-size-xs;
+		margin-bottom: $m-xs;
+	}
+
+	// Default text
+	& p {
+		font-size: $font-size-s;
+		line-height: 1.5;
+		margin-bottom: $m-base;
+	}
+
+	& hr {
+		border: 0;
+		height: 2px;
+		background-color: #E8EDEB;
+		margin: 0 0 $m-base 0;
+	}
+
+	& strong {
+		font-weight: 600;
+	}
+
+	& em {
+		font-style: italic;
+	}
+
+	& blockquote {
+		font-size: $font-size-s;
+		line-height: 1.5;
+		margin-bottom: $m-base;
+		padding: 0 16px;
+		border-left: 4px solid #E8EDEB;
+	}
+
+	& ul {
+		list-style: disc;
+		margin-bottom: $m-base;
+		padding-left: 32px;
+	}
+
+	& ol {
+		list-style: decimal;
+		margin-bottom: $m-base;
+		padding-left: 32px;
+	}
+
+	& li {
+		font-size: $font-size-s;
+		line-height: 1.5;
+	}
+
+	& code {
+		font-family: 'Courier New', Courier, monospace;
+		font-size: $font-size-s;
+		background-color: $fg;
+		color: $bg-accent;
+		border-radius: 4px;
+		padding: 2px 4px;
+	}
+
+	& pre {
+		background-color: $fg;
+		white-space: pre-wrap;
+		padding: 8px 16px;
+		border-radius: 4px;
+		margin-bottom: $m-base;
+
+		& code {
+			padding: 0;
+			border-radius: 0;
+		}
+	}
+
+	& table {
+		border-collapse: collapse;
+		width: 100%;
+		margin-bottom: $m-base;
+
+		& th, td {
+			border: 1px solid $bg-accent;
+			padding: 8px 16px;
+		}
+
+		& th {
+			background-color: $fg;
+			color: $bg;
+		}
+	}
+
+	& a {
+		color: $fg-accent;
+		font-weight: 600;
+		font-size: $font-size-s;
+		line-height: 1.5;
+		text-decoration: none;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	& img {
+		max-width: 100%;
+		margin-bottom: $m-base;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	.content {
+		padding: 32px 8px;
+		border: none;
+	}
+}

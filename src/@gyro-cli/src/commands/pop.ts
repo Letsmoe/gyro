@@ -27,7 +27,7 @@ export const popCommand = [
 			delete packageData["dependencies"][name];
 			fs.writeFileSync(
 				packagePath,
-				JSON.stringify(packageData, null, 2)
+				JSON.stringify(packageData, null, 4)
 			);
 			info("Successfully removed Parcel from config.");
 		} else {

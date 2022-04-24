@@ -1,0 +1,21 @@
+{
+    "name": "awd",
+    "version": "1.0.2",
+    "description": "Hello There",
+    "author": "Letsmoe955",
+    "license": "MIT",
+    "repository": "",
+    "commands": {
+        "test": "",
+        "build-watch": "gyst compile ./src/gyst.config.json -w",
+        "build-docs-watch": "mppc ./docs/mppconfig.mjs -w",
+        "build": "gyst compile ./src/gyst.config.json",
+        "build-docs": "mppc ./docs/mppconfig.mjs"
+    },
+	"tags": ["markdown", "php", "cli"],
+    "dependencies": {
+		"my-app": "^0.0.1"
+	},
+    "devDependencies": {},
+    "scripts": {}
+}

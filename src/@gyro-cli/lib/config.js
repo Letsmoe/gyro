@@ -1,12 +1,14 @@
 import * as path from "path";
 import * as fs from "fs";
 import { error, warn } from "./error.js";
+import { shared } from "./shared.js";
+const userFile = path.join(shared.__dirname, "gyro.users.json");
 export function readConfig() {
     // Check if the config exists in the working directory
-    const configPath = path.join(process.cwd(), "package.gyro.json");
+    const configPath = path.join(process.cwd(), "gyst.json");
     if (!fs.existsSync(configPath)) {
         // Exit with error
-        error(`Could not find package.gyro.json in current directory.`);
+        error(`Could not find gyst.json in current directory.`);
     }
     // Read the configuration file
     try {
@@ -14,17 +16,16 @@ export function readConfig() {
         return [JSON.parse(content), configPath];
     }
     catch (e) {
-        error("Could not parse package.gyro.json.");
+        error("Could not parse gyst.json.");
     }
 }
 export function readUsers() {
     // Check if a user config exists, if not, create it.
-    const userPath = "./gyro.users.json";
-    if (!fs.existsSync(userPath)) {
-        fs.writeFileSync(userPath, "[]");
+    if (!fs.existsSync(userFile)) {
+        fs.writeFileSync(userFile, "[]");
         return [];
     }
-    const content = fs.readFileSync(userPath, "utf8");
+    const content = fs.readFileSync(userFile, "utf8");
     return JSON.parse(content);
 }
 export function addUser(user) {
@@ -33,7 +34,7 @@ export function addUser(user) {
     if (!userExists(user)) {
         // Write the user to the config
         users.push(user);
-        fs.writeFileSync("./gyro.users.json", JSON.stringify(users, null, 4));
+        fs.writeFileSync(userFile, JSON.stringify(users, null, 4));
         return true;
     }
     else {

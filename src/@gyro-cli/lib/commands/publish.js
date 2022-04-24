@@ -5,6 +5,8 @@ import * as path from "path";
 import * as fs from "fs";
 import * as qs from "qs";
 import * as mime from "mime-types";
+import { error } from "../error.js";
+import { info } from "console";
 function isFileImage(file) {
     let type = mime.lookup(file);
     if (type) {
@@ -18,7 +20,7 @@ export const publishCommand = [
     (parser) => {
         const [packageData, packagePath] = readConfig();
         const users = readUsers();
-        const user = users.find((u) => u.username == packageData.owner);
+        const user = users.find((u) => u.username == packageData.author);
         if (user) {
             let size = 0;
             const gist = { type: "folder", name: packageData.name, children: [] };
@@ -62,11 +64,13 @@ export const publishCommand = [
             axios
                 .post("https://gyro.continuum-ai.de/api/publish.php", data)
                 .then((response) => {
-                console.log(response.data);
+                info(response.data);
+            }).catch((error) => {
+                error(error.response.data);
             });
         }
         else {
-            console.error("User not found for package.");
+            error("The owner of this package is not present in the list of users on your system, add them with `gyst adduser`.");
         }
     },
 ];

@@ -1,49 +1,73 @@
-import { File } from "./structure/file.js";
-import { Folder } from "./structure/folder.js";
+import { config } from "./make-config.js";
+import * as fs from "fs";
+import * as path from "path";
+import { shared } from "./shared.js";
+function loadFile(filename) {
+    return fs.readFileSync(path.join(shared.__dirname, filename), 'utf8');
+}
+const mppconfig = `{
+	css: "../style/docs.css",
+	outDir: "../out/",
+	rootDir: "./",
+	watch: true,
+	wrapper: function(head, header, body, footer, metadata, md) {
+		return \`<!DOCTYPE html><html><head>\${head}\${this.generateMetadata(metadata)}</head><body>\${header}<div class="content">\${body}</div>\${footer}</body></html>\`
+	}
+}`;
 export const StandardTemplates = {
     default: {
         name: "default",
         description: "A default template.",
-        structure: Folder("", [
-            Folder("src", [
-                Folder("modules"),
-                File("main.gy", "# Create a demo function that prints 'Hello, World!'\ndemo = func() {\n\tprint(\"Hello, World!\");\n}")
-            ]),
-            Folder("dist"),
-            Folder("docs", [
-                File("index.mpp", ""),
-                File("mppconfig.mjs", ""),
-            ]),
-            Folder("test", [
-                File("main.spec.gy", ""),
-            ]),
-            File("README.md", ""),
-            File("LICENSE", ""),
-            File("CHANGELOG.md", ""),
-            File(".gitignore", ""),
-            File("package.gyro.json", JSON.stringify({
-                version: "0.0.1",
-                name: "{{PACKAGE_NAME}}",
-                description: "{{PACKAGE_DESCRIPTION}}",
-            })),
-        ])
+        files: {
+            src: {
+                modules: {},
+                "main.gy": "# Create a demo function that prints 'Hello, World!'\ndemo = func() {\n\tprint(\"Hello, World!\");\n}"
+            },
+            dist: {},
+            docs: {
+                style: {
+                    "docs.css": loadFile("../templates/default/docs/style/docs.css"),
+                    "docs.scss": loadFile("../templates/default/docs/style/docs.scss"),
+                },
+                src: {
+                    "index.mpp": loadFile("../templates/default/docs/src/index.mpp"),
+                    "mppconfig.mjs": mppconfig,
+                },
+                out: {}
+            },
+            test: {
+                "main.spec.gy": ""
+            },
+            "README.md": "",
+            "LICENSE": "",
+            "CHANGELOG.md": "",
+            ".gitignore": "",
+            "gyst.json": JSON.stringify(config, null, 4),
+        }
     },
     minimal: {
         name: "minimal",
         description: "A minimal template.",
-        structure: Folder("", [
-            Folder("src", [
-                Folder("modules"),
-                File("main.gy", "# Create a demo function that prints 'Hello, World!'\ndemo = func() {\n\tprint(\"Hello, World!\");\n}")
-            ]),
-            Folder("dist"),
-            Folder("docs", [
-                File("index.mpp", ""),
-                File("mppconfig.mjs", ""),
-            ]),
-            File("README.md", ""),
-            File("LICENSE", ""),
-            File("package.gyro.json", ""),
-        ])
+        files: {
+            src: {
+                modules: {},
+                "main.gy": "# Create a demo function that prints 'Hello, World!'\ndemo = func() {\n\tprint(\"Hello, World!\");\n}"
+            },
+            dist: {},
+            docs: {
+                style: {
+                    "docs.css": loadFile("../templates/default/docs/style/docs.css"),
+                    "docs.scss": loadFile("../templates/default/docs/style/docs.scss"),
+                },
+                src: {
+                    "index.mpp": loadFile("../templates/default/docs/src/index.mpp"),
+                    "mppconfig.mjs": mppconfig,
+                },
+                out: {}
+            },
+            "README.md": "",
+            "LICENSE": "",
+            "gyst.json": JSON.stringify(config, null, 4),
+        }
     },
 };
