@@ -1,1 +1,1 @@
-nasm -f elf64 ./src/assembly/x64.asm -o ./src/assembly/x64.o && ld ./src/assembly/x64.o -o ./src/assembly/x64 && ./src/assembly/x64
+gcc -S main.c -o main.s && gcc -c main.c && gcc main.c -o program && ./program; echo $?

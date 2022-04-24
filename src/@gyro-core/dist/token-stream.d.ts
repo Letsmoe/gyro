@@ -15,7 +15,8 @@ declare class TokenStream {
     private readNumber;
     private readIdentifier;
     private readEscaped;
-    private readString;
+    private readDoubleQuotedString;
+    private readSingleQuotedString;
     private skipComment;
     private readNext;
     peek(): any;

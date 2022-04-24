@@ -11,10 +11,11 @@ class TokenStream {
             "then",
             "for",
             "import",
-            "export",
+            "take",
             "from",
             "in",
-            "do"
+            "do",
+            "raw"
         ];
     }
     isKeyword(x) {
@@ -60,7 +61,7 @@ class TokenStream {
     readIdentifier() {
         var id = this.readWhile(this.isIdentifier.bind(this));
         return {
-            type: this.isKeyword(id) ? "keyword" : "identifier",
+            type: this.isKeyword(id) ? "Keyword" : "Identifier",
             value: id,
         };
     }
@@ -85,8 +86,11 @@ class TokenStream {
         }
         return str;
     }
-    readString() {
+    readDoubleQuotedString() {
         return { type: "string", value: this.readEscaped('"') };
+    }
+    readSingleQuotedString() {
+        return { type: "string", value: this.readEscaped("'") };
     }
     skipComment() {
         this.readWhile(function (ch) {
@@ -104,7 +108,9 @@ class TokenStream {
             return this.readNext();
         }
         if (ch == '"')
-            return this.readString();
+            return this.readDoubleQuotedString();
+        if (ch == "'")
+            return this.readSingleQuotedString();
         if (this.isDigit(ch))
             return this.readNumber();
         if (this.isIdentifierStart(ch))

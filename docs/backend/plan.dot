@@ -1,0 +1,40 @@
+strict digraph Graph {
+	splines=true;
+	rankdir=TB;
+	edge [style="solid"];
+
+	/* Entities */
+	gyst [label="gyst", shape="circle"];
+	commands [label="commands", shape="rectangle"]
+
+	/* Relationships */
+	gyst -> commands [label="Executable Commands"];
+	commands -> adduser [label="Add a user to the users.gyro.json file in the default directory"];
+	commands -> users [label="List all users"];
+	commands -> version [label="Show the version of a package or bump it."];
+
+	commands -> push [label="Add Parcel to dependencies list."];
+	
+	subgraph version {
+		/* Version Commands */
+		version -> patch [minlen=3, label="Bump the patch version"];
+
+		patch -> "> 999" [label="Patch exceeded limit, bump minor"];
+		"> 999" -> minor [label="Minor bumped", color=red];
+
+		version -> minor [minlen=3, label="Bump the minor version"];
+		minor -> "> 999" [label="Minor exceeded limit, bump major"];
+		"> 999" -> major [label="Major bumped", color=red];
+		version -> major [minlen=3, label="Bump the major version (max 999)"];
+	}
+
+	subgraph push {
+		/* Push Commands */
+		push -> "<package>@<version>" [label="Get the name and version of the package"];
+		
+	}
+
+
+	/* Ranks */
+	
+}

@@ -1,16 +1,16 @@
 interface ASTToken {
-    elements: any;
+    elements?: any;
     type: string;
-    value: any;
+    value?: any;
     left?: ASTToken;
     operator?: ASTToken;
     right?: ASTToken;
     name?: string;
-    vars?: string[];
-    body?: ASTToken;
+    vars?: ASTToken[];
+    body?: ASTToken[];
     cond?: ASTToken;
     then?: ASTToken;
     else?: ASTToken;
 }
-declare function compileJS(exp: ASTToken): string;
-export { compileJS };
+declare function compileToJavascript(exp: ASTToken): string;
+export { compileToJavascript };

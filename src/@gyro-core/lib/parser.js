@@ -27,7 +27,7 @@ function parse(input) {
     }
     function isKeyword(kw) {
         var tok = input.peek();
-        return tok && tok.type == "keyword" && (!kw || tok.value == kw) && tok;
+        return tok && tok.type == "Keyword" && (!kw || tok.value == kw) && tok;
     }
     function isOperator(op) {
         var tok = input.peek();
@@ -97,7 +97,7 @@ function parse(input) {
     }
     function parseIdentifier() {
         var name = input.next();
-        if (name.type != "identifier" &&
+        if (name.type != "Identifier" &&
             name.type != "punctuation" &&
             name.value == "(")
             input.croak("Expecting variable name or type declaration");
@@ -160,6 +160,21 @@ function parse(input) {
             elements: delimited("[", "]", ",", parseAtom),
         };
     }
+    function parseImport() {
+        skipKeyword("import");
+        return {
+            type: "ImportExpression",
+            raw: isKeyword("raw") ? (() => {
+                skipKeyword("raw");
+                return true;
+            })() : false,
+            value: input.next().value,
+            take: isKeyword("take") ? (() => {
+                skipKeyword("take");
+                return delimited("(", ")", ",", parseIdentifier);
+            })() : undefined
+        };
+    }
     function parseAtom() {
         return maybeCall(function () {
             if (isPunctuation("(")) {
@@ -178,12 +193,14 @@ function parse(input) {
                 return parseArray();
             if (isKeyword("true") || isKeyword("false"))
                 return parseBoolean();
+            if (isKeyword("import"))
+                return parseImport();
             if (isKeyword("func")) {
                 input.next();
                 return parseFunction();
             }
             var tok = input.next();
-            if (tok.type == "identifier" ||
+            if (tok.type == "Identifier" ||
                 tok.type == "number" ||
                 tok.type == "string")
                 return tok;

@@ -1,5 +1,5 @@
 const FALSE = false;
-function compileJS(exp) {
+function compileToJavascript(exp) {
     return "const print = (...args) => console.log(...args);" + js(exp);
     function js(exp) {
         switch (exp.type) {
@@ -9,7 +9,7 @@ function compileJS(exp) {
                 return doAtom(exp);
             case "ArrayExpression":
                 return doArray(exp);
-            case "identifier":
+            case "Identifier":
                 return doIdentifier(exp);
             case "BinaryExpression":
                 return doBinaryExpression(exp);
@@ -27,6 +27,12 @@ function compileJS(exp) {
                 return doFunctionCall(exp);
             case "ForInStatement":
                 return doLoop(exp);
+            case "TypeExpression":
+                return doIdentifier(exp.left);
+            case "ImportExpression":
+                return;
+            case "ObjectAccessor":
+                return;
             default:
                 throw new Error("Transpilation failed for: " + JSON.stringify(exp));
         }
@@ -72,7 +78,14 @@ function compileJS(exp) {
         var code = "(function ";
         if (exp.name)
             code += make_var(exp.name);
-        code += "(" + exp.vars.map(make_var).join(", ") + ") {";
+        code += "(" + exp.vars.map(x => {
+            if (x.type == "TypeExpression") {
+                return doIdentifier(x.left);
+            }
+            else {
+                return doIdentifier(x);
+            }
+        }).join(", ") + ") {";
         code += "return " + js(exp.body) + " })";
         return code;
     }
@@ -111,4 +124,4 @@ function compileJS(exp) {
         return js(exp.callee) + "(" + exp.args.map(js).join(", ") + ")";
     }
 }
-export { compileJS };
+export { compileToJavascript };

@@ -1,6 +1,13 @@
 import {Gyro} from "../lib/index.js";
+import * as fs from "fs";
 
 export default (describe, it, expect) => {
+	let file = fs.readFileSync("./test_all.gyro", "utf8");
+	let [result, vars] = Gyro.evaluate(file);
+	//console.log(Gyro.compile(file) + "\n");
+	console.log(result, vars);
+	process.exit()
+
 	describe("Gyro function declaration", () => {
 		it("Should create a function which returns the sum of two numbers (5 and 10) => 15", () => {
 			const sum = Gyro.evaluate("x = func(a,b) a+b; x(5,10);");

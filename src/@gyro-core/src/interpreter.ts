@@ -1,4 +1,8 @@
 import { Environment } from "./environment.js";
+import {InputStream} from "./input-stream.js";
+import {TokenStream} from "./token-stream.js";
+import * as fs from "fs";
+import { parse } from "./parser.js";
 
 function evaluate(exp, env: Environment) {
 	switch (exp.type) {
@@ -7,11 +11,11 @@ function evaluate(exp, env: Environment) {
 		case "boolean":
 			return exp.value;
 
-		case "identifier":
+		case "Identifier":
 			return env.get(exp.value);
 
 		case "AssignmentExpression":
-			if (exp.left.type != "identifier") {
+			if (exp.left.type != "Identifier") {
 				// We're not reassigning a value, check if a type has been annotated.
 				if (exp.left.type == "TypeExpression") {
 					// Expect a type to be assigned to the variable. => (varName: type) = value;
@@ -76,6 +80,26 @@ function evaluate(exp, env: Environment) {
 			return exp.elements.map(function (e) {
 				return evaluate(e, env);
 			});
+
+		case "ImportExpression":
+			if (!exp.raw) {
+				const input = new InputStream(fs.readFileSync(exp.value, "utf8"));
+				const tokens = new TokenStream(input);
+				const ast = parse(tokens);
+				if (exp.take !== undefined) {
+					let localEnvironment = new Environment(env);
+					evaluate(ast, localEnvironment);
+					for (var str of exp.take) {
+						env.def(str, localEnvironment.get(str));
+					}
+					return env.get(str);
+				} else {
+					evaluate(ast, env);
+					return;
+				}
+			} else {
+				return fs.readFileSync(exp.value, "utf8")
+			}
 
 		default:
 			throw new Error("I don't know how to evaluate " + exp.type);

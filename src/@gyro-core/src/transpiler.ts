@@ -1,21 +1,21 @@
 const FALSE = false;
 
 interface ASTToken {
-	elements: any;
+	elements?: any;
 	type: string;
-	value: any;
+	value?: any;
 	left?: ASTToken;
 	operator?: ASTToken;
 	right?: ASTToken;
 	name?: string;
-	vars?: string[];
-	body?: ASTToken;
+	vars?: ASTToken[];
+	body?: ASTToken[];
 	cond?: ASTToken;
 	then?: ASTToken;
 	else?: ASTToken;
 }
 
-function compileJS(exp : ASTToken) {
+function compileToJavascript(exp : ASTToken) {
 	return "const print = (...args) => console.log(...args);" + js(exp);
 
 	function js(exp) {
@@ -26,7 +26,7 @@ function compileJS(exp : ASTToken) {
 				return doAtom(exp);
 			case "ArrayExpression":
 				return doArray(exp);
-			case "identifier":
+			case "Identifier":
 				return doIdentifier(exp);
 			case "BinaryExpression":
 				return doBinaryExpression(exp);
@@ -44,6 +44,12 @@ function compileJS(exp : ASTToken) {
 				return doFunctionCall(exp);
 			case "ForInStatement":
 				return doLoop(exp);
+			case "TypeExpression":
+				return doIdentifier(exp.left);
+			case "ImportExpression":
+				return
+			case "ObjectAccessor":
+				return
 			default:
 				throw new Error(
 					"Transpilation failed for: " + JSON.stringify(exp)
@@ -95,7 +101,13 @@ function compileJS(exp : ASTToken) {
 	function doFunction(exp: ASTToken) {
 		var code = "(function ";
 		if (exp.name) code += make_var(exp.name);
-		code += "(" + exp.vars.map(make_var).join(", ") + ") {";
+		code += "(" + exp.vars.map(x => {
+			if (x.type == "TypeExpression") {
+				return doIdentifier(x.left);
+			} else {
+				return doIdentifier(x);
+			}
+		}).join(", ") + ") {";
 		code += "return " + js(exp.body) + " })";
 		return code;
 	}
@@ -139,4 +151,4 @@ function compileJS(exp : ASTToken) {
 	}
 }
 
-export { compileJS };
+export { compileToJavascript };
