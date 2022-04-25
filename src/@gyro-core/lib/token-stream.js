@@ -15,7 +15,8 @@ class TokenStream {
             "from",
             "in",
             "do",
-            "raw"
+            "raw",
+            "public"
         ];
     }
     isKeyword(x) {

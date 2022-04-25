@@ -2,4 +2,12 @@
 
 (add: any) = func(a, b) {
 	a + b;
-}
+};
+
+createPlayground = func(name) {
+	public name = name;
+	
+	public changeName = func(newName) {
+		public name = newName;
+	}
+};

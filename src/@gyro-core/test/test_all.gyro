@@ -1,31 +1,46 @@
-# Defining Functions
+# # Defining Functions
 
-fibonacci = func(n) {
-	if n < 2 {
-		n;
-	} else {
-		fibonacci(n - 1) + fibonacci(n - 2);
-	};
+# #fibonacci = func(n) {
+# #	if n < 2 {
+# #		n;
+# #	} else {
+# #		fibonacci(n - 1) + fibonacci(n - 2);
+# #	};
+# #};
+# #
+# #factorial = func((n: int)) {if n == 0 then 1 else n * factorial(n - 1)};
+# #
+# ## Defining Variables
+# #(base: int) = 5;
+# #(stringVar: string) = "Hello There, this is a string!";
+# #(arrayVar: Array<int>) = [1, 2, 3, 4, 5];
+# #import "./other.gyro" take (add);
+# #(baseFactorial: int) = factorial(base); # Should be 120
+# #(addedValue: int) = add(2,5); # Imported from "other.gyro" Should equal 7
+
+# import "./other.gyro" take (add, createPlayground);
+
+# #add(5,5); # Import `add` function was assigned to `someString`, meaning it is now a function.
+
+# # arrayOffset = [[1, 2], 1]~0~1;
+
+# playground = createPlayground("This is a basic playground");
+# playground~changeName("New Name");
+# playground~name = "Hello";
+# print(playground~name);
+
+# # Raw Imports
+# #string = import raw "./other.gyro";
+# #
+# ## Object Accessors (~)
+# #factorial(arrayVar~2); # Should be 6
+
+# # Importing Other files
+
+x = 5;
+
+add = func(a,b) {
+	a + b;
 };
 
-factorial = func((n: int)) {if n == 0 then 1 else n * factorial(n - 1)};
-
-# Defining Variables
-(base: int) = 5;
-(stringVar: string) = "Hello There, this is a string!";
-(arrayVar: Array<int>) = [1, 2, 3, 4, 5];
-import "./other.gyro" take (add);
-(baseFactorial: int) = factorial(base); # Should be 120
-(addedValue: int) = add(2,5); # Imported from "other.gyro" Should equal 7
-
-(someString: lambda) = import "./other.gyro" take (add);
-
-someString(5,5); # Import `add` function was assigned to `someString`, meaning it is now a function.
-
-# Raw Imports
-string = import raw "./other.gyro";
-
-# Object Accessors (~)
-factorial(arrayVar~2); # Should be 6
-
-# Importing Other files
+add(x, 5);

@@ -141,6 +141,7 @@ function parse(input) {
 			body: parseExpression(),
 		};
 	}
+	
 	function parseBoolean() {
 		let val = input.next().value;
 		return {
@@ -174,6 +175,21 @@ function parse(input) {
 		};
 	}
 
+	function parsePublic() {
+		skipKeyword("public");
+		return {
+			type: "ScopeExpression",
+			scope: "public",
+			name: input.next().value,
+			value: (() => {
+				if (isOperator("=")) {
+					skipOperator("=");
+				}
+				return parseExpression()
+			})()
+		};
+	}
+
 	function parseAtom() {
 		return maybeCall(function () {
 			if (isPunctuation("(")) {
@@ -188,6 +204,7 @@ function parse(input) {
 			if (isPunctuation("[")) return parseArray();
 			if (isKeyword("true") || isKeyword("false")) return parseBoolean();
 			if (isKeyword("import")) return parseImport();
+			if (isKeyword("public")) return parsePublic();
 			if (isKeyword("func")) {
 				input.next();
 				return parseFunction();

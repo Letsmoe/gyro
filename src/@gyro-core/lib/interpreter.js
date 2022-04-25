@@ -52,12 +52,24 @@ function evaluate(exp, env) {
                 return evaluate(arg, env);
             }));
         case "ObjectAccessor":
-            return evaluate(exp.left, env)[evaluate(exp.right, env)];
+            let obj = evaluate(exp.left, env);
+            if (Array.isArray(obj)) {
+                return obj[evaluate(exp.right, env)];
+            }
+            else {
+                let local = new Environment({ vars: obj, publicKeys: [] });
+                return evaluate(exp.right, local);
+            }
         case "ArrayExpression":
             // We allow deeply nested arrays, we must recurse to parse them
             return exp.elements.map(function (e) {
                 return evaluate(e, env);
             });
+        case "ScopeExpression":
+            env.parent.def(exp.name, evaluate(exp.value, env), true);
+            let object = {};
+            env.publicKeys.map(x => object[x] = env.get(x));
+            return object;
         case "ImportExpression":
             if (!exp.raw) {
                 const input = new InputStream(fs.readFileSync(exp.value, "utf8"));

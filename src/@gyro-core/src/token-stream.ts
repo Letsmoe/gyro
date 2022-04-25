@@ -5,8 +5,6 @@ class TokenStream {
 		"if",
 		"else",
 		"while",
-		"let",
-		"const",
 		"func",
 		"then",
 		"for",
@@ -15,7 +13,8 @@ class TokenStream {
 		"from",
 		"in",
 		"do",
-		"raw"
+		"raw",
+		"public"
 	];
 	private current: string;
 	constructor(private stream: InputStream) {}

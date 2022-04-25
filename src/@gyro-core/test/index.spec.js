@@ -1,9 +1,12 @@
 import {Gyro} from "../lib/index.js";
+import {Environment} from "../lib/environment.js";
 import * as fs from "fs";
 
 export default (describe, it, expect) => {
 	let file = fs.readFileSync("./test_all.gyro", "utf8");
-	let [result, vars] = Gyro.evaluate(file);
+	let env = new Environment(null)
+	env.def("print", (...args) => console.log(...args))
+	let [result, vars] = Gyro.evaluate(file, env);
 	//console.log(Gyro.compile(file) + "\n");
 	console.log(result, vars);
 	process.exit()

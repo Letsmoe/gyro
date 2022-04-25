@@ -1,9 +1,11 @@
 class Environment {
 	public vars: { [key: string]: any };
 	public parent: Environment;
+	public publicKeys: string[];
 	constructor(parent: Environment) {
 		this.vars = Object.create(parent ? parent.vars : null);
 		this.parent = parent;
+		this.publicKeys = Object.create(parent ? parent.publicKeys : []);
 	}
 	extend() {
 		return new Environment(this);
@@ -26,7 +28,10 @@ class Environment {
 			throw new Error("Undefined variable " + name);
 		return ((scope || this).vars[name] = value);
 	}
-	def(name: string, value: any) {
+	def(name: string, value: any, isPublic : boolean = false) {
+		if (isPublic) {
+			this.publicKeys.push(name);
+		}
 		return (this.vars[name] = value);
 	}
 }

@@ -175,6 +175,20 @@ function parse(input) {
             })() : undefined
         };
     }
+    function parsePublic() {
+        skipKeyword("public");
+        return {
+            type: "ScopeExpression",
+            scope: "public",
+            name: input.next().value,
+            value: (() => {
+                if (isOperator("=")) {
+                    skipOperator("=");
+                }
+                return parseExpression();
+            })()
+        };
+    }
     function parseAtom() {
         return maybeCall(function () {
             if (isPunctuation("(")) {
@@ -195,6 +209,8 @@ function parse(input) {
                 return parseBoolean();
             if (isKeyword("import"))
                 return parseImport();
+            if (isKeyword("public"))
+                return parsePublic();
             if (isKeyword("func")) {
                 input.next();
                 return parseFunction();
