@@ -1,0 +1,21 @@
+var Keyword;
+(function (Keyword) {
+    Keyword["BREAK_STATEMENT"] = "break";
+    Keyword["IF"] = "if";
+    Keyword["ELSE"] = "else";
+    Keyword["WHILE"] = "while";
+    Keyword["FUNC"] = "func";
+    Keyword["THEN"] = "then";
+    Keyword["FOR"] = "for";
+    Keyword["IMPORT"] = "import";
+    Keyword["TAKE"] = "take";
+    Keyword["FROM"] = "from";
+    Keyword["IN"] = "in";
+    Keyword["DO"] = "do";
+    Keyword["RAW"] = "raw";
+    Keyword["PUBLIC"] = "public";
+    Keyword["TRUE"] = "true";
+    Keyword["FALSE"] = "false";
+    Keyword["INFINITY"] = "Infinity";
+})(Keyword || (Keyword = {}));
+export { Keyword };

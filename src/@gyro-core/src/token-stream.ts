@@ -1,4 +1,5 @@
 import { InputStream } from "./input-stream.js";
+import { Keyword } from "./types.js";
 
 class TokenStream {
 	private KEYWORDS: string[] = [
@@ -14,7 +15,7 @@ class TokenStream {
 		"in",
 		"do",
 		"raw",
-		"public"
+		"public",
 	];
 	private current: string;
 	constructor(private stream: InputStream) {}
@@ -29,18 +30,28 @@ class TokenStream {
 		return /[a-z_]/i.test(ch);
 	}
 	private isIdentifier(ch: string): boolean {
-		return (
-			this.isIdentifierStart(ch) || "?!<>0123456789".indexOf(ch) >= 0
-		);
+		return this.isIdentifierStart(ch) || "?!<>0123456789".indexOf(ch) >= 0;
 	}
 	private isOperatorChar(ch: string) {
 		return (
-			["+", "-", "*", "/", "%", "=", "&", "|", "<", ">", ":", "!", "~"].indexOf(
-				ch
-			) >= 0
+			[
+				"+",
+				"-",
+				"*",
+				"/",
+				"%",
+				"=",
+				"&",
+				"|",
+				"<",
+				">",
+				":",
+				"!",
+				"~",
+			].indexOf(ch) >= 0
 		);
 	}
-	private isPunctuation(ch : string) {
+	private isPunctuation(ch: string) {
 		return ",;(){}[]".indexOf(ch) >= 0;
 	}
 	private isWhitespace(ch: string) {
@@ -71,7 +82,7 @@ class TokenStream {
 			value: id,
 		};
 	}
-	private readEscaped(end : string) {
+	private readEscaped(end: string) {
 		var escaped = false,
 			str = "";
 		this.stream.next();

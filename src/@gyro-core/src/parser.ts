@@ -1,5 +1,7 @@
-var FALSE = { type: "bool", value: false };
-function parse(input) {
+import { TokenStream } from "./token-stream.js";
+import { Keyword } from "./types.js"
+
+function parse(input: TokenStream) {
 	var PRECEDENCE = {
 		":": 1,
 		"=": 2,
@@ -27,11 +29,11 @@ function parse(input) {
 			tok && tok.type == "punctuation" && (!ch || tok.value == ch) && tok
 		);
 	}
-	function isKeyword(kw) {
+	function isKeyword(kw: Keyword) {
 		var tok = input.peek();
 		return tok && tok.type == "Keyword" && (!kw || tok.value == kw) && tok;
 	}
-	function isOperator(op?) {
+	function isOperator(op?: string) {
 		var tok = input.peek();
 		return tok && tok.type == "operator" && (!op || tok.value == op) && tok;
 	}
@@ -54,10 +56,14 @@ function parse(input) {
 		var tok = isOperator();
 		if (tok) {
 			var his_prec = PRECEDENCE[tok.value];
-			if ((his_prec > my_prec) || typeof his_prec == "undefined") {
+			if (his_prec > my_prec || typeof his_prec == "undefined") {
 				input.next();
 
-				const typeMap = {"=": "AssignmentExpression", ":": "TypeExpression", "~": "ObjectAccessor"}
+				const typeMap = {
+					"=": "AssignmentExpression",
+					":": "TypeExpression",
+					"~": "ObjectAccessor",
+				};
 				return maybeBinary(
 					{
 						type: typeMap[tok.value] || "BinaryExpression",
@@ -112,7 +118,7 @@ function parse(input) {
 			cond: cond,
 			then: then,
 		};
-		if (isKeyword("else")) {
+		if (isKeyword(Keyword.ELSE)) {
 			input.next();
 			ret.else = parseExpression();
 		}
@@ -141,11 +147,11 @@ function parse(input) {
 			body: parseExpression(),
 		};
 	}
-	
+
 	function parseBoolean() {
 		let val = input.next().value;
 		return {
-			type: "bool",
+			type: "Boolean",
 			value: val == "true",
 		};
 	}
@@ -163,15 +169,19 @@ function parse(input) {
 		skipKeyword("import");
 		return {
 			type: "ImportExpression",
-			raw: isKeyword("raw") ? (() => {
-				skipKeyword("raw");
-				return true
-			})() : false,
+			raw: isKeyword(Keyword.RAW)
+				? (() => {
+						skipKeyword("raw");
+						return true;
+				  })()
+				: false,
 			value: input.next().value,
-			take: isKeyword("take") ? (() => {
-				skipKeyword("take");
-				return delimited("(", ")", ",", parseIdentifier);
-			})() : undefined
+			take: isKeyword(Keyword.TAKE)
+				? (() => {
+						skipKeyword("take");
+						return delimited("(", ")", ",", parseIdentifier);
+				  })()
+				: undefined,
 		};
 	}
 
@@ -185,8 +195,8 @@ function parse(input) {
 				if (isOperator("=")) {
 					skipOperator("=");
 				}
-				return parseExpression()
-			})()
+				return parseExpression();
+			})(),
 		};
 	}
 
@@ -199,13 +209,14 @@ function parse(input) {
 				return exp;
 			}
 			if (isPunctuation("{")) return parseProgram();
-			if (isKeyword("if")) return parseIf();
-			if (isKeyword("for")) return parseLoop();
+			if (isKeyword(Keyword.IF)) return parseIf();
+			if (isKeyword(Keyword.FOR)) return parseLoop();
 			if (isPunctuation("[")) return parseArray();
-			if (isKeyword("true") || isKeyword("false")) return parseBoolean();
-			if (isKeyword("import")) return parseImport();
-			if (isKeyword("public")) return parsePublic();
-			if (isKeyword("func")) {
+			if (isKeyword(Keyword.TRUE) || isKeyword(Keyword.FALSE))
+				return parseBoolean();
+			if (isKeyword(Keyword.IMPORT)) return parseImport();
+			if (isKeyword(Keyword.PUBLIC)) return parsePublic();
+			if (isKeyword(Keyword.FUNC)) {
 				input.next();
 				return parseFunction();
 			}
@@ -229,7 +240,7 @@ function parse(input) {
 	}
 	function parseProgram() {
 		var prog = delimited("{", "}", ";", parseExpression);
-		if (prog.length == 0) return FALSE;
+		if (prog.length == 0) return {type: "Boolean", value: false};
 		if (prog.length == 1) return prog[0];
 		return { type: "Program", body: prog };
 	}

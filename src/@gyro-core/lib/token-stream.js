@@ -5,8 +5,6 @@ class TokenStream {
             "if",
             "else",
             "while",
-            "let",
-            "const",
             "func",
             "then",
             "for",
@@ -16,7 +14,7 @@ class TokenStream {
             "in",
             "do",
             "raw",
-            "public"
+            "public",
         ];
     }
     isKeyword(x) {
@@ -29,10 +27,24 @@ class TokenStream {
         return /[a-z_]/i.test(ch);
     }
     isIdentifier(ch) {
-        return (this.isIdentifierStart(ch) || "?!<>0123456789".indexOf(ch) >= 0);
+        return this.isIdentifierStart(ch) || "?!<>0123456789".indexOf(ch) >= 0;
     }
     isOperatorChar(ch) {
-        return (["+", "-", "*", "/", "%", "=", "&", "|", "<", ">", ":", "!", "~"].indexOf(ch) >= 0);
+        return ([
+            "+",
+            "-",
+            "*",
+            "/",
+            "%",
+            "=",
+            "&",
+            "|",
+            "<",
+            ">",
+            ":",
+            "!",
+            "~",
+        ].indexOf(ch) >= 0);
     }
     isPunctuation(ch) {
         return ",;(){}[]".indexOf(ch) >= 0;

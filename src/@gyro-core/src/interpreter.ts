@@ -8,7 +8,7 @@ function evaluate(exp, env: Environment) {
 	switch (exp.type) {
 		case "number":
 		case "string":
-		case "boolean":
+		case "Boolean":
 			return exp.value;
 
 		case "Identifier":
