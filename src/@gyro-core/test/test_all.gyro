@@ -37,10 +37,12 @@
 
 # # Importing Other files
 
-x = 5;
+#x = 5;
+#
+#add = func(a,b) {
+#	a + b;
+#};
 
-add = func(a,b) {
-	a + b;
-};
+#add(x, 5);
 
-add(x, 5);
+4 + 5 + 6;

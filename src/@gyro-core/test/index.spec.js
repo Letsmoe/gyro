@@ -1,14 +1,16 @@
 import {Gyro} from "../lib/index.js";
 import {Environment} from "../lib/environment.js";
+import {Compiler} from "../lib/compiler/index.js";
 import * as fs from "fs";
 
 export default (describe, it, expect) => {
 	let file = fs.readFileSync("./test_all.gyro", "utf8");
-	let env = new Environment(null)
-	env.def("print", (...args) => console.log(...args))
-	let [result, vars] = Gyro.evaluate(file, env);
+	//let env = new Environment(null)
+	//env.def("print", (...args) => console.log(...args))
+	//let [result, vars] = Gyro.evaluate(file, env);
 	//console.log(Gyro.compile(file) + "\n");
-	console.log(result, vars);
+	//console.log(result, vars);
+	console.log((new Compiler(Gyro.parse(file))).compile());
 	process.exit()
 
 	describe("Gyro function declaration", () => {

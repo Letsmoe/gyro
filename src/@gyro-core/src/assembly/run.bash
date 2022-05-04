@@ -1,1 +1,0 @@
-gcc -S main.c -o main.s && gcc -c main.c && gcc main.c -o program && ./program; echo $?
