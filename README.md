@@ -4,7 +4,7 @@
 A compiled programming language for high performant embedded systems and applications.
 </center>
 
-<div style="display: flex; gap: 10px; justify-content: center;">
+<center style="display:flex; gap: 10px;">
 
 ![License](https://img.shields.io/github/license/Letsmoe/gyro?color=green&label=License&style=flat-square)
 
@@ -14,7 +14,7 @@ A compiled programming language for high performant embedded systems and applica
 
 ![Forks](https://img.shields.io/github/forks/letsmoe/gyro?label=Forks&style=flat-square)
 
-</div>
+</center>
 
 ## Installing Gyro
 The [Gyro package](https://continuum-ai.de/docs/gyro/install) comes with an x86_64 compiler pre-installed.
