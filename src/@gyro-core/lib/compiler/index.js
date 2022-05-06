@@ -1,3 +1,9 @@
+var ResultType;
+(function (ResultType) {
+    ResultType[ResultType["RBP_OFFSET"] = 0] = "RBP_OFFSET";
+    ResultType[ResultType["REGISTER"] = 1] = "REGISTER";
+    ResultType[ResultType["LITERAL"] = 2] = "LITERAL";
+})(ResultType || (ResultType = {}));
 const error = (...args) => {
     process.stderr.write(`${args.join(' ')}\n`);
     process.exit(1);
@@ -45,10 +51,10 @@ class Compiler {
     }
     emit_move(reg, expr) {
         if (expr) {
-            if (expr.type === "IDENTIFIER_RBP_OFFSET") {
+            if (expr.type === ResultType.RBP_OFFSET) {
                 this.emit(`mov ${reg}, DWORD [rbp-${expr.value}]`);
             }
-            else if (expr.type === "LITERAL") {
+            else if (expr.type === ResultType.LITERAL) {
                 this.emit(`mov ${reg}, ${expr.value}`);
             }
         }
@@ -59,7 +65,7 @@ class Compiler {
             // We're dealing with ints, we can use the register-base-pointer (rbp) and offset the values into the stack, we can assume it has already been pushed into the stack before.
             // Increment the base pointer by 4, which means 32 bits or 4 bytes.
             return {
-                type: "LITERAL",
+                type: ResultType.LITERAL,
                 value: expr.value
             };
         }
@@ -95,7 +101,7 @@ class Compiler {
                 this.emit(`${op} eax, edx`);
             }
             return {
-                type: "RESULT_IN_EAX",
+                type: ResultType.REGISTER,
                 value: "eax"
             };
         }
@@ -109,7 +115,7 @@ class Compiler {
                 this.s_offset += 4;
                 this.v_lookup[expr.left.value] = this.s_offset;
             }
-            if (value.type === "IDENTIFIER_RBP_OFFSET") {
+            if (value.type === ResultType.RBP_OFFSET) {
                 this.emit(`mov DWORD [rbp-${this.s_offset}], [rbp-${value.value}]`);
             }
             else {
@@ -123,7 +129,7 @@ class Compiler {
             }
             else {
                 return {
-                    type: "IDENTIFIER_RBP_OFFSET",
+                    type: ResultType.RBP_OFFSET,
                     value: this.v_lookup[expr.value]
                 };
             }

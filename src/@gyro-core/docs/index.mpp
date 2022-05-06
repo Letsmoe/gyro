@@ -19,10 +19,11 @@ Static typing is a feature that allows you to declare variables with a type, and
 ### Type Inference
 Type Inference is a feature that allows you to declare variables without a type, and then you can assign values of any type.
 ```
-(x: any) = 5;
+x = 5;
+y = "String";
 ```
 
-### Function Declaration
+### Function Declarations
 ```
 (add: int) = func(a: int, b: int) {a + b};
 ```
@@ -36,3 +37,13 @@ Overriding functions to add the ability for passing other types of parameters ca
 ```
 
 ### self
+The self keyword always references the parent function inside a declaration.
+
+```
+(add: int) = func(a: int, b: int) {
+	self~intermediate = a + b;
+
+	return self~intermediate;
+}
+# => 0
+```

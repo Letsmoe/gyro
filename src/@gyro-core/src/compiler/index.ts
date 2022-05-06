@@ -1,5 +1,11 @@
 type Register = "eax" | "edx" | "rdi" | "rsi" | "rdx" | "rcx" | "r8" | "r9"
 
+enum ResultType {
+	RBP_OFFSET,
+	REGISTER,
+	LITERAL
+}
+
 const error = (...args: any[]) => {
 	process.stderr.write(`${args.join(' ')}\n`);
 	process.exit(1);
@@ -48,11 +54,11 @@ class Compiler {
 		expr.body.forEach(this.emit_expr, this);
 	}
 	
-	private emit_move(reg: Register, expr: {type: string, value: any}) {
+	private emit_move(reg: Register, expr: {type: ResultType, value: any}) {
 		if (expr) {
-			if (expr.type === "IDENTIFIER_RBP_OFFSET") {
+			if (expr.type === ResultType.RBP_OFFSET) {
 				this.emit(`mov ${reg}, DWORD [rbp-${expr.value}]`);
-			} else if (expr.type === "LITERAL") {
+			} else if (expr.type === ResultType.LITERAL) {
 				this.emit(`mov ${reg}, ${expr.value}`);
 			}
 		}
@@ -64,7 +70,7 @@ class Compiler {
 			// We're dealing with ints, we can use the register-base-pointer (rbp) and offset the values into the stack, we can assume it has already been pushed into the stack before.
 			// Increment the base pointer by 4, which means 32 bits or 4 bytes.
 			return {
-				type: "LITERAL",
+				type: ResultType.LITERAL,
 				value: expr.value
 			};
 		} else if (t === "BinaryExpression") {
@@ -101,7 +107,7 @@ class Compiler {
 			}
 
 			return {
-				type: "RESULT_IN_EAX",
+				type: ResultType.REGISTER,
 				value: "eax"
 			}
 		} else if (t === "AssignmentExpression") {
@@ -114,7 +120,7 @@ class Compiler {
 				this.s_offset += 4;
 				this.v_lookup[expr.left.value] = this.s_offset;
 			}
-			if (value.type === "IDENTIFIER_RBP_OFFSET") {
+			if (value.type === ResultType.RBP_OFFSET) {
 				this.emit(`mov DWORD [rbp-${this.s_offset}], [rbp-${value.value}]`)
 			} else {
 				this.emit(`mov DWORD [rbp-${this.s_offset}], ${value.value}`)
@@ -125,7 +131,7 @@ class Compiler {
 				error("Looking up variable in scope failed for: " + expr.value);
 			} else {
 				return {
-					type: "IDENTIFIER_RBP_OFFSET",
+					type: ResultType.RBP_OFFSET,
 					value: this.v_lookup[expr.value]
 				}
 			}

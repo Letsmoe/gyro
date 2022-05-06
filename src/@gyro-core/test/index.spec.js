@@ -2,7 +2,7 @@ import {Gyro} from "../lib/index.js";
 import {Compiler} from "../lib/compiler/index.js";
 
 export default (describe, it, expect) => {
-	content = `
+	const content = `
 	(x: int) = 4;
 	(y: int) = 6 + x / 2;
 	`

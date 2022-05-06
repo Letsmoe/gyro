@@ -1,3 +1,8 @@
+declare enum ResultType {
+    RBP_OFFSET = 0,
+    REGISTER = 1,
+    LITERAL = 2
+}
 /**
  * BinaryExpression - +
  * 		-> number - 5
@@ -27,7 +32,7 @@ declare class Compiler {
     private emit_program;
     private emit_move;
     emit_expr(expr: any): {
-        type: string;
+        type: ResultType;
         value: any;
     };
     emit_toint(expr: any): void;
