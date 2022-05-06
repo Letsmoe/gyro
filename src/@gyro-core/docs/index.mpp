@@ -1,0 +1,38 @@
+# Gyro
+
+## Features
+
+### Casting
+Casting variables to another datatype
+```
+(x: int) = 5;
+
+(y: float) = (x as float) * 5; # 25.0
+```
+
+### Static Typing
+Static typing is a feature that allows you to declare variables with a type, and then you can only assign values of that type.
+```
+(x: int) = 5;
+```
+
+### Type Inference
+Type Inference is a feature that allows you to declare variables without a type, and then you can assign values of any type.
+```
+(x: any) = 5;
+```
+
+### Function Declaration
+```
+(add: int) = func(a: int, b: int) {a + b};
+```
+
+### Function Overrides
+Overriding functions to add the ability for passing other types of parameters causing the function to behave differently.
+
+```
+(add: int) = override func(a: int, b: int) {a + b};
+(add: float) = func(a: float, b: float) {a + b};
+```
+
+### self

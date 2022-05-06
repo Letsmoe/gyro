@@ -57,7 +57,7 @@ class TokenStream {
 	private isWhitespace(ch: string) {
 		return " \t\n".indexOf(ch) >= 0;
 	}
-	private readWhile(predicate) {
+	private readWhile(predicate : Function) {
 		var str = "";
 		while (!this.stream.eof() && predicate(this.stream.peek()))
 			str += this.stream.next();
