@@ -15,6 +15,10 @@ class TokenStream {
             "do",
             "raw",
             "public",
+            "true",
+            "false",
+            "Infinity",
+            "return"
         ];
     }
     isKeyword(x) {
@@ -69,7 +73,7 @@ class TokenStream {
             }
             return this.isDigit(ch);
         });
-        return { type: "number", value: parseFloat(number) };
+        return { type: has_dot ? "float" : "integer", value: parseFloat(number) };
     }
     readIdentifier() {
         var id = this.readWhile(this.isIdentifier.bind(this));

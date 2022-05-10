@@ -16,6 +16,10 @@ class TokenStream {
 		"do",
 		"raw",
 		"public",
+		"true",
+		"false",
+		"Infinity",
+		"return"
 	];
 	private current: string;
 	constructor(private stream: InputStream) {}
@@ -73,7 +77,7 @@ class TokenStream {
 			}
 			return this.isDigit(ch);
 		});
-		return { type: "number", value: parseFloat(number) };
+		return { type: has_dot ? "float" : "integer", value: parseFloat(number) };
 	}
 	private readIdentifier() {
 		var id = this.readWhile(this.isIdentifier.bind(this));

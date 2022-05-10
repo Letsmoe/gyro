@@ -2,7 +2,6 @@ import { InputStream } from "./input-stream.js";
 import { TokenStream } from "./token-stream.js";
 import { parse } from "./parser.js";
 import { evaluate } from "./interpreter.js";
-import { compileToJavascript } from "./transpiler.js";
 import { Environment } from "./environment.js";
 
 const Gyro = {
@@ -29,8 +28,8 @@ const Gyro = {
 		const input = new InputStream(code);
 		const tokens = new TokenStream(input);
 		const ast = parse(tokens);
-		return compileToJavascript(ast);
+		return (ast);
 	}
 }
 
-export { InputStream, TokenStream, parse, evaluate, compileToJavascript, Environment, Gyro };
+export { InputStream, TokenStream, parse, evaluate, Environment, Gyro };

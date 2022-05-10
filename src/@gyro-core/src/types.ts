@@ -16,6 +16,7 @@ enum Keyword {
 	TRUE = "true",
 	FALSE = "false",
 	INFINITY = "Infinity",
+	RETURN = "return",
 }
 
 export {Keyword}

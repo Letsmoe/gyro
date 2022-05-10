@@ -15,6 +15,7 @@ declare enum Keyword {
     PUBLIC = "public",
     TRUE = "true",
     FALSE = "false",
-    INFINITY = "Infinity"
+    INFINITY = "Infinity",
+    RETURN = "return"
 }
 export { Keyword };

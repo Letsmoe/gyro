@@ -197,6 +197,13 @@ function parse(input) {
             })(),
         };
     }
+    function parseReturn() {
+        skipKeyword("return");
+        return {
+            type: "ReturnExpression",
+            value: parseExpression(),
+        };
+    }
     function parseAtom() {
         return maybeCall(function () {
             if (isPunctuation("(")) {
@@ -207,6 +214,8 @@ function parse(input) {
             }
             if (isPunctuation("{"))
                 return parseProgram();
+            if (isKeyword(Keyword.RETURN))
+                return parseReturn();
             if (isKeyword(Keyword.IF))
                 return parseIf();
             if (isKeyword(Keyword.FOR))
@@ -225,7 +234,8 @@ function parse(input) {
             }
             var tok = input.next();
             if (tok.type == "Identifier" ||
-                tok.type == "number" ||
+                tok.type == "integer" ||
+                tok.type == "float" ||
                 tok.type == "string")
                 return tok;
             unexpected();

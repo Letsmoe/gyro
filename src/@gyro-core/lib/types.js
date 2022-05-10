@@ -17,5 +17,6 @@ var Keyword;
     Keyword["TRUE"] = "true";
     Keyword["FALSE"] = "false";
     Keyword["INFINITY"] = "Infinity";
+    Keyword["RETURN"] = "return";
 })(Keyword || (Keyword = {}));
 export { Keyword };

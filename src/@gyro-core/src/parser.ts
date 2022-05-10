@@ -200,6 +200,14 @@ function parse(input: TokenStream) {
 		};
 	}
 
+	function parseReturn() {
+		skipKeyword("return");
+		return {
+			type: "ReturnExpression",
+			value: parseExpression(),
+		};
+	}
+
 	function parseAtom() {
 		return maybeCall(function () {
 			if (isPunctuation("(")) {
@@ -209,6 +217,7 @@ function parse(input: TokenStream) {
 				return exp;
 			}
 			if (isPunctuation("{")) return parseProgram();
+			if (isKeyword(Keyword.RETURN)) return parseReturn();
 			if (isKeyword(Keyword.IF)) return parseIf();
 			if (isKeyword(Keyword.FOR)) return parseLoop();
 			if (isPunctuation("[")) return parseArray();
@@ -223,7 +232,8 @@ function parse(input: TokenStream) {
 			var tok = input.next();
 			if (
 				tok.type == "Identifier" ||
-				tok.type == "number" ||
+				tok.type == "integer" ||
+				tok.type == "float" ||
 				tok.type == "string"
 			)
 				return tok;
