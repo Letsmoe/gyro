@@ -47,3 +47,20 @@ The self keyword always references the parent function inside a declaration.
 }
 # => 0
 ```
+
+```
+(multiply: int) = func(a: int, b: int) {
+	(self~value: int) = 0;
+	(self~add: void) = func(x: int) {
+		self~value += x;
+	}
+
+	# for ((i: int) = 0; i < b; i++) {
+	# 	
+	# }
+
+	for (i: int) to b do (i++) {
+		self~add(a);
+	}
+}
+```

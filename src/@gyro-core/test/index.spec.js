@@ -40,19 +40,9 @@ export default (describe, it, expect) => {
 			let compiler = new Compiler(Gyro.parse(content));
 			let result = compiler.compile()
 			fs.writeFileSync(path.join(process.cwd(), "../bin/result.asm"), result);
-			let lines = compiler.getLines().slice(2)
-
-			//expect(lines[0]).toEqual("mov rbp, rsp");
-			//expect(lines[1]).toEqual("mov DWORD [rbp-4], 4");
-			//expect(lines[2]).toEqual("mov eax, DWORD [rbp-4]");
-			//expect(lines[3]).toEqual("mov edx, 2");
-			//expect(lines[4]).toEqual("sub eax, edx");
-			//expect(lines[5]).toEqual("mov edx, eax");
-			//expect(lines[6]).toEqual("mov eax, 4");
-			//expect(lines[7]).toEqual("imul eax, edx");
-			//expect(lines[8]).toEqual("mov edx, 6");
-			//expect(lines[9]).toEqual("add eax, edx");
-			//expect(lines[10]).toEqual("mov DWORD [rbp-8], eax");
+			let lines = compiler.getLines();
+			console.log(lines);
+			process.exit(0)
 		})
 	})
 

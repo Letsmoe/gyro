@@ -1,7 +1,7 @@
 make --dry-run --always-make --keep-going --print-directory
-make: Entering directory '/home/moritz/Documents/Continuum-Projects/gyro/src/@gyro-core'
+make: Entering directory '/home/moritz/Documents/Projects/gyro/src/@gyro-core'
 cd ./bin/ && nasm -g -f elf64 ./result.asm -o ./result.o
 cd ./bin/ && ld ./result.o -o result
 cd ./bin/ && ./result
-make: Leaving directory '/home/moritz/Documents/Continuum-Projects/gyro/src/@gyro-core'
+make: Leaving directory '/home/moritz/Documents/Projects/gyro/src/@gyro-core'
  

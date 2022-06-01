@@ -1,0 +1,6 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/moritz/Documents/Projects/gyro'
+make: Leaving directory '/home/moritz/Documents/Projects/gyro'
+ 
+make: *** No targets specified and no makefile found.  Stop.
+
