@@ -1,0 +1,58 @@
+<!DOCTYPE html><html><head>
+			<link rel="stylesheet" href="/style/style.css">
+			<script type="module">
+				import summary from "/scripts/summary.js";
+				document.querySelector(".sidebar").innerHTML = summary;
+			</script>
+		</head><body>
+			<div class="sidebar"></div>
+			<div class="inner-body"><hr>
+<div class="title"><p>Math Library - Gyro</p>
+<p>author: letsmoe</p>
+<p>date: 18.04.2022</p>
+<p>description: Documentation for the Gyro Math library</p>
+<hr>
+</div>
+
+<h1 id="math">Math</h1>
+<p>The <code>Math</code> library allows for advanced arithmetic operations implemented in Machine Code for optimal performance.</p>
+<details><summary>Table of Contents</summary><ol><li><a href="#matrix_operations">Matrix Operations</a></li><ul><li><a href="#matrix_multiplication">Matrix Multiplication</a></li></ul><li><a href="#vector_geometry">Vector Geometry</a></li></ol></details>
+
+<h2 id="matrix-operations">Matrix Operations</h2>
+<h3 id="matrix-multiplication">Matrix Multiplication</h3>
+<p>Multiplies one matrix of dimension <code>m x n</code> with another of dimension <code>n x p</code> to produce a matrix of dimension <code>p x m</code>.</p>
+<center>
+$$
+\begin{bmatrix}
+    a_{11} & a_{12} & \cdots & a_{1n}\\
+    a_{21} & a_{22} & \cdots & a_{2n}\\ 
+    \vdots & \vdots & \ddots & \vdots\\ 
+    a_{m1} & a_{m2} & \cdots & a_{mn} 
+\end{bmatrix}
+\times
+\begin{bmatrix}
+    b_{11} & b_{12} & \cdots & b_{1p}\\
+    b_{21} & b_{22} & \cdots & b_{2p}\\ 
+    \vdots & \vdots & \ddots & \vdots\\ 
+    b_{n1} & b_{n2} & \cdots & b_{np} 
+\end{bmatrix}
+=
+\begin{bmatrix}
+    c_{11} & c_{12} & \cdots & c_{1p}\\
+    c_{21} & c_{22} & \cdots & c_{2p}\\ 
+    \vdots & \vdots & \ddots & \vdots\\ 
+    c_{m1} & c_{m2} & \cdots & c_{mp} 
+\end{bmatrix}
+$$
+</center>
+
+<pre><code class="language-gyro">    matrix&lt;2,2&gt;: m1 = matrix(2, 2, [1, 2, 3, 4]);
+    matrix&lt;2,3&gt;: m2 = matrix(2, 3, [5, 6, 7, 8, 9, 10]);
+    matrix&lt;3,2&gt;: newMatrix = Matrix-&gt;multiply(m1, m2);
+    print(newMatrix);
+    # [[21, 24, 27], 
+    # [47, 54, 61]];
+</code></pre>
+<h2 id="vector-geometry">Vector Geometry</h2>
+</div>
+		</body></html>

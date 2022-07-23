@@ -1,0 +1,20 @@
+# Syntax Extensibility (Dialecting)
+
+The basic [[syntax]] of Gyro is static, meaning that keywords can not have their meaning changed and will always have to be used in their appropriate context.
+You can, however, extend the [[syntax]] since it is a [[globally exposed object]].
+
+```gyro
+
+extend Syntax by Ternary {
+	[(condition: any)] ? [(is_true: any)] : [(is_false: any)]
+} implements {
+	new SyntaxExtender("?", Syntax.Weak);
+	new SyntaxExtender(":", Syntax.Weak);
+} calling {
+	if (condition) {
+		return is_true;
+	}
+	return is_false;
+}
+
+```

@@ -1,0 +1,105 @@
+<!DOCTYPE html><html><head>
+			<link rel="stylesheet" href="/style/style.css">
+			<script type="module">
+				import summary from "/scripts/summary.js";
+				document.querySelector(".sidebar").innerHTML = summary;
+			</script>
+		</head><body>
+			<div class="sidebar"></div>
+			<div class="inner-body"><hr>
+<div class="author"><p>letsmoe</p>
+<p>title: An introduction to Gyro</p>
+<p>date: April 16, 2022</p>
+<hr>
+</div># Gyro
+
+
+
+
+<p><img src="./assets/gyro-full-subscript.svg" alt="Gyroscope with &#39;GYRO&#39; subscript"></p>
+<p align="center">
+`Gyro` is a high-level, statically typed, compiled programming lanaguage written in pure C (and JavaScript) with the goal of creating an extensible and simplistic environment for use in embedded web applications.
+</p>
+
+<details><summary>Table of Contents</summary><ol><li><a href="#syntax">Syntax</a></li><li><a href="#principles">Principles</a></li><li><a href="#grammar">Grammar</a></li><li><a href="#features">Features</a></li><li><a href="#reference">Reference</a></li><ul><li><a href="#standard_objects">Standard Objects</a></li><li><a href="#built_in_libraries">Built-in Libraries</a></li></ol></details>
+
+<h2 id="syntax">Syntax</h2>
+<p>Take a look at the <a href="/syntax/syntax.html">syntax</a> for more information.</p>
+<h2 id="principles">Principles</h2>
+<p><code>Gyro</code> has been developed with the idea of a fast and simple language in mind.
+It shares a lot of it&#39;s syntax with Typescript and old school C. Take a look at
+this snippet.</p>
+<pre><code class="language-gyro">&lt;div class=&quot;float&quot;&gt;&lt;p&gt;variable = 5.5;&lt;/p&gt;
+&lt;p&gt;// We can define comments using double slashes.&lt;/p&gt;
+&lt;p&gt;int: main = func(...args) {&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// And we call methods by using the `-&amp;gt;` arrow syntax.
+
+int: round = if args-&amp;gt;0 &amp;gt; 0 then 1 else 0;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;	// We can also use the `return` keyword to return a value.
+    return round;
+}
+</code></pre>
+<p>Since <code>Gyro</code> is statically typed, annotations have to be added to help the
+compiler figure out the optimal solution for optimizing the given code. <code>Gyro</code>
+can also be interpreted dynamically, removing the need for type annotations,
+they are - however - a best practice for making code more readable and can help
+with IDE highlighting.</p>
+<h2 id="grammar">Grammar</h2>
+<p>The full official grammar of <code>Gyro</code> is <a href="https://continuum-ai.de/docs/gyro/grammar/">described here</a>.
+Here are some important parts of it:</p>
+<pre><code class="language-ebnf">digit = &quot;0&quot; | &quot;1&quot; | &quot;2&quot; | &quot;3&quot; | &quot;4&quot; | &quot;5&quot; | &quot;6&quot; | &quot;7&quot; | &quot;8&quot; | &quot;9&quot;;
+character = &quot;a&quot; | &quot;b&quot; | &quot;c&quot; | &quot;d&quot; | &quot;e&quot; | &quot;f&quot; | &quot;g&quot; | &quot;h&quot; | &quot;i&quot; | &quot;j&quot; | &quot;k&quot; | &quot;l&quot; | &quot;m&quot; | &quot;n&quot; | &quot;o&quot; | &quot;p&quot; | &quot;q&quot; | &quot;r&quot; | &quot;s&quot; | &quot;t&quot; | &quot;u&quot; | &quot;v&quot; | &quot;w&quot; | &quot;x&quot; | &quot;y&quot; | &quot;z&quot;
+            | &quot;A&quot; | &quot;B&quot; | &quot;C&quot; | &quot;D&quot; | &quot;E&quot; | &quot;F&quot; | &quot;G&quot; | &quot;H&quot; | &quot;I&quot; | &quot;J&quot; | &quot;K&quot; | &quot;L&quot; | &quot;M&quot; | &quot;N&quot; | &quot;O&quot; | &quot;P&quot; | &quot;Q&quot; | &quot;R&quot; | &quot;S&quot; | &quot;T&quot; | &quot;U&quot; | &quot;V&quot; | &quot;W&quot; | &quot;X&quot; | &quot;Y&quot; | &quot;Z&quot;
+
+(*
+    Identifiers are the names of variables, functions, and types.
+*)
+identifier_start = character | &quot;_&quot; | &quot;$&quot; | &quot;?&quot; | &quot;!&quot;
+identifier = identifier_start + (digit | character | &quot;_&quot; | &quot;$&quot; | &quot;?&quot; | &quot;!&quot;)*
+
+(*
+    Operators are the symbols that are used to do something with two values.
+*)
+operator = &quot;+&quot; | &quot;-&quot; | &quot;*&quot; | &quot;/&quot; | &quot;=&quot; | &quot;==&quot; | &quot;!=&quot; | &quot;&lt;&quot; | &quot;&lt;=&quot; | &quot;&gt;&quot; | &quot;&gt;=&quot; | &quot;&amp;&amp;&quot; | &quot;||&quot;
+
+(*
+    Keywords are the names of things that are used to do something.
+*)
+keyword = (&quot;if&quot; | &quot;else&quot; | &quot;while&quot; | &quot;return&quot; | &quot;break&quot; | &quot;continue&quot; | &quot;for&quot; | &quot;in&quot; | &quot;true&quot; | &quot;false&quot; | &quot;null&quot;)
+</code></pre>
+<h2 id="features">Features</h2>
+<p>There are plenty of programming languages out there that offer flexibility and
+immense possibilities for any imaginable situation, why would <code>Gyro</code> stand out?
+<code>Gyro</code> is syntax extensible, meaning you can define your own keywords,
+operators, and functions. <code>Gyro</code> also offers better string manipulation since it
+has been written with writers in mind. There is a high performance markdown and
+HTML parser that has been implemented in <code>Gyro</code> making it very easy working with
+web applications. Remember the <code>Table of Contents</code> from above? It has been
+automatically generated while compiling. The code for that looks like this:</p>
+<pre><code class="language-gyro">table_of_contents = toc(&quot;Table of Contents&quot;);
+// Notice the `tilde` (~) sign being used as the write operation here.
+~table_of_contents;
+</code></pre>
+<h2 id="reference">Reference</h2>
+<p>For more information take a look at the full <a href="https://continuum-ai.de/docs/gyro/reference/">Gyro Reference</a>.</p>
+<h3 id="standard-objects">Standard Objects</h3>
+<p>Built-in objects that are supported by the standard library are:
+<a class="no-reference"><code>Array</code></a>, <a href="/types/boolean.html"><code>Boolean</code></a>,
+<a class="no-reference"><code>Date</code></a>, <a class="no-reference"><code>Error</code></a>,
+<a class="no-reference"><code>Function</code></a>, <a class="no-reference"><code>Number</code></a>,
+<a class="no-reference"><code>Object</code></a>, <a class="no-reference"><code>RegExp</code></a>,
+<a class="no-reference"><code>String</code></a>, <a class="no-reference"><code>Symbol</code></a>,
+<a class="no-reference"><code>TypeError</code></a>, <a class="no-reference"><code>Undefined</code></a>,
+<a class="no-reference"><code>Null</code></a>, <a class="no-reference"><code>Int8Array</code></a>,
+<a class="no-reference"><code>Uint8Array</code></a>,
+<a class="no-reference"><code>Uint8ClampedArray</code></a>,
+<a class="no-reference"><code>Int16Array</code></a>, <a class="no-reference"><code>Uint16Array</code></a>,
+<a class="no-reference"><code>Int32Array</code></a>, <a class="no-reference"><code>Uint32Array</code></a>,
+<a class="no-reference"><code>Float32Array</code></a>, <a class="no-reference"><code>Float64Array</code></a>,
+<a class="no-reference"><code>Map</code></a>, <a class="no-reference"><code>Set</code></a>, <a class="no-reference"><code>WeakMap</code></a>,
+<a class="no-reference"><code>WeakSet</code></a>, <a class="no-reference"><code>Promise</code></a>.</p>
+<h3 id="built-in-libraries">Built-in Libraries</h3>
+<p><a href="/libraries/math.html"><code>Math</code></a></p>
+</div>
+		</body></html>

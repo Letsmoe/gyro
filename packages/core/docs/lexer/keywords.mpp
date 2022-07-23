@@ -1,0 +1,22 @@
+# Keywords
+Keywords are divided into three categories:
+
+- [strict](#strict)
+- [reserved](#reserved)
+- [weak](#weak)
+
+## Strict Keywords {#strict}
+Strict keywords must be used in their required context, they can not be overwritten or be used as names of:
+
+- [[Variables]] or function parameters
+- [[Type Parameters]]
+- [[Loop labels]]
+- [[Syntax Additions]]
+
+> **Lexer:**
+> KW_CONST: `const`
+> KW_LET: `let`
+> KW_IF: `if`
+> KW_ELIF: `elif`
+> KW_ELSE: `else`
+
