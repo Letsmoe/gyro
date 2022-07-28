@@ -8,13 +8,15 @@ date: April 16, 2022
 
 {%
 	table_of_contents = toc("Table of Contents");
-	sec_grammar = include("./grammar.ebnf");
+	grammar = include("./grammar.ebnf");
 %}
 
 
-![Gyroscope with 'GYRO' subscript](./assets/gyro-full-subscript.svg)
 <p align="center">
-`Gyro` is a high-level, statically typed, compiled programming lanaguage written in pure C (and JavaScript) with the goal of creating an extensible and simplistic environment for use in embedded web applications.
+	<img src="./assets/gyro-full-subscript.svg" >
+</p>
+<p align="center">
+<code>Gyro</code> is a high-level, statically typed, compiled programming lanaguage written in pure C (and JavaScript) with the goal of creating an extensible and simplistic environment for use in embedded web applications.
 </p>
 
 {{table_of_contents}}
@@ -50,13 +52,13 @@ The full official grammar of `Gyro` is [described here](https://continuum-ai.de/
 Here are some important parts of it:
 
 ```ebnf
-{{sec_grammar}}
+{{grammar}}
 ```
 
 ## Features
 There are plenty of programming languages out there that offer flexibility and
 immense possibilities for any imaginable situation, why would `Gyro` stand out?
-`Gyro` is syntax extensible, meaning you can define your own keywords,
+`Gyro` is syntax extensible (see [[dialects]] for examples), meaning you can define your own keywords,
 operators, and functions. `Gyro` also offers better string manipulation since it
 has been written with writers in mind. There is a high performance markdown and
 HTML parser that has been implemented in `Gyro` making it very easy working with

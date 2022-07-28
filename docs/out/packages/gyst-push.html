@@ -1,0 +1,15 @@
+<!DOCTYPE html><html><head><link rel="stylesheet" href="/style/main.css"><title>Push - Gyst</title><meta name="author" content="letsmoe"></meta></head><body><div class="markdown-body"><h1 id="gyst-push">Gyst Push</h1>
+<h2 id="synopsis">Synopsis</h2>
+<pre><code>gyst push [&lt;package-name&gt;] ...
+
+aliases: install, i, add
+</code></pre>
+<h2 id="description">Description</h2>
+<p>The push command adds a new package to the dependencies list, installs it including all of its dependencies.</p>
+<h2 id="configuration">Configuration</h2>
+<h3 id="save">save</h3>
+<pre><code>gyst push @continuum/math --save
+</code></pre>
+<p>The optional parameter <code>--save</code> will cause the installed package to be wrriten into the dependencies list, this can be applied e.g. to symlinks which would normally not be saved as a global dependency.</p>
+<h3 id="save-dev">save-dev</h3>
+</div><script src="/scripts/index.js"></script></body></html>

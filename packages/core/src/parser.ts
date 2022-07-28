@@ -20,7 +20,7 @@ function parse(input: TokenStream) {
 		"/": 20,
 		"%": 20,
 		"**": 30,
-		"~": 40,
+		".": 40,
 	};
 	return parseToplevel();
 	function isPunctuation(ch: string) {
@@ -29,7 +29,11 @@ function parse(input: TokenStream) {
 			tok && tok.type == "punctuation" && (!ch || tok.value == ch) && tok
 		);
 	}
-	function isKeyword(kw: Keyword) {
+	function isString() {
+		var tok = input.peek();
+		return tok && tok.type == "string"
+	}
+	function isKeyword(kw: string) {
 		var tok = input.peek();
 		return tok && tok.type == "Keyword" && (!kw || tok.value == kw) && tok;
 	}
@@ -41,7 +45,7 @@ function parse(input: TokenStream) {
 		if (isPunctuation(ch)) input.next();
 		else input.croak('Expecting punctuation: "' + ch + '"');
 	}
-	function skipKeyword(kw) {
+	function skipKeyword(kw: string) {
 		if (isKeyword(kw)) input.next();
 		else input.croak('Expecting keyword: "' + kw + '"');
 	}
@@ -62,7 +66,7 @@ function parse(input: TokenStream) {
 				const typeMap = {
 					"=": "AssignmentExpression",
 					":": "TypeExpression",
-					"~": "ObjectAccessor",
+					".": "ObjectAccessor",
 				};
 				return maybeBinary(
 					{
@@ -167,22 +171,25 @@ function parse(input: TokenStream) {
 	}
 	function parseImport() {
 		skipKeyword("import");
+		let source: string, specifiers: any[];
+		if (isString()) {
+			source = input.next().value
+		} else {
+			specifiers = delimited("(", ")", ",", parseIdentifier);
+			specifiers = specifiers.map(specifier => {
+				return {
+					type: "ImportSpecifier",
+					name: specifier
+				}
+			})
+			source = input.next().value;
+		}
+
 		return {
-			type: "ImportExpression",
-			raw: isKeyword(Keyword.RAW)
-				? (() => {
-						skipKeyword("raw");
-						return true;
-				  })()
-				: false,
-			value: input.next().value,
-			take: isKeyword(Keyword.TAKE)
-				? (() => {
-						skipKeyword("take");
-						return delimited("(", ")", ",", parseIdentifier);
-				  })()
-				: undefined,
-		};
+			type: "ImportDeclaration",
+			source: input.next().value,
+			specifiers
+		}
 	}
 
 	function parsePublic() {

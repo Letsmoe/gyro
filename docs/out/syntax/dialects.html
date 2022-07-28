@@ -1,0 +1,13 @@
+<!DOCTYPE html><html><head><link rel="stylesheet" href="/style/main.css"><title>Dialects</title><meta name="author" content="letsmoe"></meta></head><body><div class="markdown-body"><h1 id="dialects">Dialects</h1>
+<pre><code class="language-gyro">extend syntax by Ternary {
+    [(condition: any)] ? [(is_true: any)] : [(is_false: any)]
+} implements {
+    if (condition) {
+        return is_true;
+    }
+    return is_false;
+}
+</code></pre>
+<p>The extend keyword allows users to build upon the base of a model/view, this includes the built-in &quot;syntax&quot; type, meaning that users can define custom behaviour for different parts of the system.
+In the first example you can see the implementation of the ever-so-popular ternary operator.</p>
+</div><script src="/scripts/index.js"></script></body></html>

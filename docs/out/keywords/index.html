@@ -1,0 +1,20 @@
+<!DOCTYPE html><html><head><link rel="stylesheet" href="/style/main.css"><title>Keywords - Gyro</title><meta name="author" content="letsmoe"></meta></head><body><div class="markdown-body"><h1 id="keywords">Keywords</h1>
+<h2 id="static-keywords">Static Keywords</h2>
+<h3 id="struct"><a href="/keywords/struct.md">struct</a></h3>
+<p>The struct keyword is used to define new data structures that are auto instantiable when assigned to a <a class="no-reference">variable</a> or <a class="no-reference">constant</a>.</p>
+<pre><code class="language-gyro">struct Vector3D {
+    x: float | int;
+    y: float | int;
+    z: float | int;
+}
+
+const newVector: Vector3D = { 4, 2, 1 };
+</code></pre>
+<h3 id="type"><a class="no-reference">type</a></h3>
+<p>The type keyword allows for simplifying type annotations by defining them beforehand.</p>
+<pre><code>type Matrix2x2 = Array&lt;Array&lt;float | int&gt;(2)&gt;(2);
+
+const matrix: Matrix2x2 = [ [ 42, 2.78 ], [ 3.14, 4 ] ]
+</code></pre>
+<h2 id="weak-keywords">Weak Keywords</h2>
+</div><script src="/scripts/index.js"></script></body></html>

@@ -1,0 +1,42 @@
+struct Vector3D {
+	x: float;
+	y: float;
+	z: float;
+}
+
+class Vector implements Vector3D {
+	construct(private x: int, private y: int, private z: int) {}
+}
+
+extend Syntax by VectorAddition {
+	[a: Vector3D] * [b: Vector3D]
+} implements {
+	return (a.x * b.x) + (a.y * b.y) + (a.z * b.z);
+}
+
+class Matrix {
+	private m: Array<Array<float>> = [];
+	construct(x: int, y: int) {
+		for (let i: int = 0; i < y; i++) {
+			self.m.append([]);
+			for (let j: int = 0; j < x; j++) {
+				self.m[i].append(0);
+			}
+		}
+	}
+
+	public numRows() {
+		return self.m.length;
+	}
+
+	public numCols() {
+		return self.m && self.m[0]?.length
+	}
+}
+
+const vector1: Vector3D = { 2, 4, 2 };
+const vector2: Vector3D = { 3, 6, 9 };
+
+const dotProduct = vector1 * vector2;
+
+print(dotProduct);

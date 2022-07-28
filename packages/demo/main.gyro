@@ -1,0 +1,10 @@
+import (Matrix, Vector) from "./math.gyro";
+
+type Matrix2x2 = Array<Array<float>(2)>(2);
+
+const main = func(): Matrix2x2  {
+	const x: Vector3D = { 4, 5, 6 };
+	let matrix = new Matrix(4,4);
+
+	return [[1,2],[3,4]];
+}

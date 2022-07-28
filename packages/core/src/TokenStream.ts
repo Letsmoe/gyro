@@ -10,7 +10,6 @@ class TokenStream {
 		"then",
 		"for",
 		"import",
-		"take",
 		"from",
 		"in",
 		"do",
@@ -19,7 +18,9 @@ class TokenStream {
 		"true",
 		"false",
 		"Infinity",
-		"return"
+		"return",
+		"const",
+		"let"
 	];
 	private current: string;
 	constructor(private stream: InputStream) {}
@@ -51,7 +52,7 @@ class TokenStream {
 				">",
 				":",
 				"!",
-				"~",
+				".",
 			].indexOf(ch) >= 0
 		);
 	}

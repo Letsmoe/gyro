@@ -1,0 +1,24 @@
+<!DOCTYPE html><html><head><link rel="stylesheet" href="/style/main.css"><title>if/else - Gyro</title><meta name="author" content="letsmoe"></meta></head><body><div class="markdown-body"><h1 id="ifelse">if/else</h1>
+<p>Conditionals are a basic part of every programming language. Branches in Gyro have to be surrounded by parentheses, like in Python the <code>else if</code> branch is declared as <code>elif</code>.</p>
+<pre><code class="language-gyro">const main = func() {
+    var n = 42;
+
+    if (n &lt; 0) {
+        printf(&quot;%s is negative&quot;, n);
+    } elif (n &gt; 0) {
+        printf(&quot;%s is positive&quot;, n);
+    } else {
+        printf(&quot;%s is zero&quot;, n);
+    }
+
+    return n;
+}
+</code></pre>
+<p>There is an available short form of <code>if/else</code> called the <a href="/operators/ternary.html">Ternary</a> operator, it is specified in two versions, a <code>Symboled Ternary</code> and a <code>Written Ternary</code>.</p>
+<pre><code class="language-gyro">var n = (10 if (5 &gt; 4) else 8);
+</code></pre>
+<p>Written Ternary</p>
+<pre><code class="language-gyro">var n = (5 &gt; 4) ? 10 : 8;
+</code></pre>
+<p>Symboled Ternary</p>
+</div><script src="/scripts/index.js"></script></body></html>
